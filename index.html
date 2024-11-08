@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidhan | Developer</title>
+
+
+    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/583231?v=4">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="relative">
+    <div id="canvas-container"></div>
+
+    <header class="fixed w-full top-0 z-50 glass">
+        <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold mono text-[var(--primary)] no-underline">
+                <i class="fas fa-code mr-2"></i>Bidhan.
+            </a>
+
+            <div class="menu-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <ul class="hidden md:flex space-x-8 mono list-none m-0 p-0 desktop-menu">
+                <li><a href="#home" class="nav-link hover:text-[var(--primary)]">.home()</a></li>
+                <li><a href="#about" class="nav-link hover:text-[var(--primary)]">.about()</a></li>
+                <li><a href="#work" class="nav-link hover:text-[var(--primary)]">.work()</a></li>
+                <li><a href="#contact" class="nav-link hover:text-[var(--primary)]">.contact()</a></li>
+            </ul>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu">
+            <div class="close-menu">
+                <i class="fas fa-times"></i>
+            </div>
+            <ul class="mono">
+                <li><a href="#home" class="nav-link hover:text-[var(--primary)]">.home()</a></li>
+                <li><a href="#about" class="nav-link hover:text-[var(--primary)]">.about()</a></li>
+                <li><a href="#work" class="nav-link hover:text-[var(--primary)]">.work()</a></li>
+                <li><a href="#contact" class="nav-link hover:text-[var(--primary)]">.contact()</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="min-h-screen flex items-center justify-center pt-20">
+            <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">
+                <h1 class="text-4xl md:text-6xl font-bold gradient-text mb-6">Hello, I'm Bidhan</h1>
+                <p class="text-lg md:text-xl text-[var(--lighter)] mb-8">I craft beautiful web experiences</p>
+                <a href="#work" class="btn">View My Work</a>
+            </div>
+        </section>
+
+        <section id="about" class="min-h-screen flex items-center justify-center py-20">
+            <div class="max-w-4xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-8">.about()</h2>
+                    <p class="text-lg md:text-xl text-[var(--lighter)] mb-8 leading-relaxed">I'm a passionate web
+                        developer with expertise in creating
+                        modern, responsive web applications. I love working with cutting-edge technologies and crafting
+                        seamless user experiences.</p>
+                    <div class="grid grid-cols-2 gap-6 text-[var(--primary)] mono text-lg">
+                        <div class="hover:scale-105 transition-transform">▹ Html</div>
+                        <div class="hover:scale-105 transition-transform">▹ Css</div>
+                        <div class="hover:scale-105 transition-transform">▹ JavaScript</div>
+                        <div class="hover:scale-105 transition-transform">▹ Three.js</div>
+                        <div class="hover:scale-105 transition-transform">▹ Tailwind</div>
+                    </div>
+                </div>
+                <div class="relative flex justify-center items-center" data-aos="fade-left">
+                    <img src="photo.png" alt="Profile Photo" class="profile-image">
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="min-h-screen flex items-center justify-center">
+            <div class="max-w-6xl mx-auto px-6">
+                <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-12 text-center" data-aos="fade-up">.work()
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="100">
+                        <img src="color picker.svg" alt="Color Picker Project" class="w-[170px] mx-auto mb-4">
+                        <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Colour Picker</h3>
+                        <p class="text-[var(--lighter)] mb-4">A versatile color picker tool with various color formats
+                            and palettes.</p>
+                        <button onclick="window.open('cpicker.html', '_blank')" class="btn w-full">View <i
+                                class="fa-solid fa-arrow-up-right-from-square ml-2"></i></button>
+                    </div>
+                    <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="200">
+                        <img src="clock.svg" alt="Analog Clock Project" class="w-[170px] mx-auto mb-4">
+                        <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Analog Clock</h3>
+                        <p class="text-[var(--lighter)] mb-4">An elegant analog clock that lets you view time from any
+                            timezone around the world.</p>
+                        <button onclick="window.open('clock.html', '_blank')" class="btn w-full">View <i
+                                class="fa-solid fa-arrow-up-right-from-square ml-2"></i></button>
+                    </div>
+                    <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="200">
+                        <img src="url.svg" alt="URL Tools Project" class="w-[170px] mx-auto mb-4">
+                        <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">URL Tools</h3>
+                        <p class="text-[var(--lighter)] mb-4">A versatile tool that lets you shorten URLs, generate QR
+                            codes, and convert text between different cases.</p>
+                        <button onclick="window.open('url.html', '_blank')" class="btn w-full">View <i
+                                class="fa-solid fa-arrow-up-right-from-square ml-2"></i></button>
+                    </div>
+                    <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="300">
+                        <img src="question-mark.svg" alt="Coming Soon Project" class="w-[170px] mx-auto mb-4">
+                        <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Coming Soon!</h3>
+                        <p class="text-[var(--lighter)] mb-4">Stay tuned for an exciting new project that I am currently
+                            building. I'm working hard to create something innovative and unique that will showcase my
+                            growing skills as a developer.</p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="min-h-screen flex items-center justify-center">
+            <div class="max-w-4xl mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-6" data-aos="fade-up">.contact()</h2>
+                <p class="text-[var(--lighter)] mb-8" data-aos="fade-up" data-aos-delay="100">
+                    I'm currently seeking exciting opportunities to contribute my skills and creativity. Let's connect
+                    and explore how we can work together to bring your ideas to life!
+                </p>
+                <div class="flex flex-col items-center gap-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+                    <a href="resumebidhan.pdf" class="btn hover:scale-105 transition-transform" target="_blank">
+                        <i class="far fa-file-pdf mr-2"></i>View Resume
+                    </a>
+                </div>
+                <div class="flex flex-col items-center mb-8" data-aos="fade-up" data-aos-delay="275">
+                    <h3 class="text-xl font-bold text-[var(--primary)] mb-4">Let's Connect</h3>
+                    <p>📍 Tulsipur, Nepal</p>
+                    <p>🌐 Open to Remote Opportunities Worldwide</p>
+                </div>
+                <div class="flex justify-center space-x-6" data-aos="fade-up" data-aos-delay="300">
+                    <a href="https://github.com/BidhanDhakal" target="_blank" rel="noopener noreferrer"
+                        class="social-icon hover:text-[var(--accent)] transition-colors" title="GitHub">
+                        <i class="fab fa-github text-2xl"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/bidhan-dhakal-487347337/" target="_blank"
+                        rel="noopener noreferrer" class="social-icon hover:text-[var(--accent)] transition-colors"
+                        title="LinkedIn">
+                        <i class="fab fa-linkedin text-2xl"></i>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61556013907076" target="_blank"
+                        rel="noopener noreferrer" class="social-icon hover:text-[var(--accent)] transition-colors"
+                        title="Facebook">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-[var(--darker)] py-8">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold text-[var(--primary)] mb-2">Bidhan Dhakal</h3>
+                    <p class="text-[var(--lighter)] text-sm">Frontend Developer</p>
+                </div>
+                <div class="flex flex-col md:flex-row items-center gap-4">
+                    <nav class="flex gap-6">
+                        <a href="#home"
+                            class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.home()</a>
+                        <a href="#about"
+                            class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.about()</a>
+                        <a href="#work"
+                            class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.work()</a>
+                        <a href="#contact"
+                            class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.contact()</a>
+                    </nav>
+                </div>
+            </div>
+            <div class="border-t border-[var(--lighter)]/10 mt-6 pt-6">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-[var(--lighter)] text-sm mb-4 md:mb-0">
+                        © 2024 Bidhan Dhakal. All rights reserved.
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <a href="#"
+                            class="text-[var(--lighter)] hover:text-[var(--accent)] text-sm transition-colors">Privacy
+                            Policy</a>
+                        <span class="text-[var(--lighter)]/50">|</span>
+                        <a href="#"
+                            class="text-[var(--lighter)] hover:text-[var(--accent)] text-sm transition-colors">Terms of
+                            Service</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

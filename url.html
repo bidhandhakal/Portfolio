@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            padding: 2rem;
+        }
+
+        .Name {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            color: white;
+            font-size: 1rem;
+            text-decoration: none;
+            z-index: 1000;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 50px;
+        }
+
+        .Name:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.2);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            width: min(95%, 1200px);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tool-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: clamp(1rem, 4vw, 2rem);
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-out;
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+        }
+
+        .section {
+            width: 100%;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: clamp(1.2rem, 3vw, 1.7rem);
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: clamp(8px, 2vw, 12px);
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            transition: all 0.3s ease;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: clamp(8px, 2vw, 12px);
+            background: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        button:hover {
+            background: #1a5fc7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 117, 252, 0.2);
+        }
+
+        .result {
+            margin-top: clamp(1rem, 3vw, 1.5rem);
+            padding: clamp(0.75rem, 2vw, 1rem);
+            background: #f8f9fa;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .result.active {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .shortened-url {
+            word-break: break-all;
+            color: #2575fc;
+            font-weight: 500;
+            padding: clamp(0.375rem, 1vw, 0.5rem);
+            background: rgba(37, 117, 252, 0.1);
+            border-radius: 4px;
+            margin: clamp(0.375rem, 1vw, 0.5rem) 0;
+            font-size: clamp(0.875rem, 2vw, 1rem);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: clamp(0.75rem, 2vw, 1rem) 0;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: clamp(16px, 4vw, 20px);
+            height: clamp(16px, 4vw, 20px);
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2575fc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        #qrcode {
+            text-align: center;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #qrcode img {
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .download-btn {
+            background: #6a11cb;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .download-btn:hover {
+            background: #5a0eb0;
+        }
+
+        .download-btn.show {
+            display: block;
+        }
+
+        .char-count {
+            text-align: right;
+            color: #666;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="Name" title="Back to Portfolio"><i class="fa-solid fa-code"></i> Bidhan.</a>
+    <div class="container">
+        <div class="tool-box">
+            <div class="section">
+                <h1>URL Shortener</h1>
+                <div class="input-group">
+                    <input type="url" id="longUrl" placeholder="Enter your long URL here" required>
+                </div>
+                <button onclick="shortenUrl()">Shorten URL</button>
+                
+                <div class="loading" id="loading"></div>
+                
+                <div class="result" id="result">
+                    <p>Shortened URL:</p>
+                    <p class="shortened-url" id="shortUrl"></p>
+                    <button class="copy-btn" onclick="copyUrl()">Copy URL</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tool-box">
+            <div class="section">
+                <h2>QR Code Generator</h2>
+                <div class="input-group">
+                    <input type="text" id="text" placeholder="Enter text or URL" required>
+                </div>
+                <button onclick="generateQR()">Generate QR Code</button>
+                <div id="qrcode"></div>
+                <button class="download-btn" id="downloadBtn" onclick="downloadQR()">Download QR Code</button>
+            </div>
+        </div>
+
+        <div class="tool-box">
+            <div class="section">
+                <h2>Text Case Converter</h2>
+                <div class="input-group">
+                    <textarea id="textInput" placeholder="Enter text to convert" oninput="updateCharCount()"></textarea>
+                    <div class="char-count" id="charCount">Characters: 0</div>
+                </div>
+                <button onclick="convertCase('upper')">UPPERCASE</button>
+                <button onclick="convertCase('lower')">lowercase</button>
+                <button onclick="convertCase('title')">Title Case</button>
+                <button onclick="convertCase('sentence')">Sentence case</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        let qr;
+        
+        async function shortenUrl() {
+            const longUrl = document.getElementById('longUrl').value;
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+
+            if (!longUrl) {
+                showNotification('Please enter a URL', 'error');
+                return;
+            }
+
+            if (!isValidUrl(longUrl)) {
+                showNotification('Please enter a valid URL', 'error');
+                return;
+            }
+
+            loading.classList.add('active');
+            result.classList.remove('active');
+
+            try {
+                const response = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const shortUrl = await response.text();
+                document.getElementById('shortUrl').textContent = shortUrl;
+                result.classList.add('active');
+                showNotification('URL shortened successfully!', 'success');
+            } catch (error) {
+                showNotification('Error shortening URL. Please try again.', 'error');
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        function copyUrl() {
+            const shortUrl = document.getElementById('shortUrl').textContent;
+            navigator.clipboard.writeText(shortUrl)
+                .then(() => showNotification('URL copied to clipboard!', 'success'))
+                .catch(() => showNotification('Failed to copy URL', 'error'));
+        }
+
+        function generateQR() {
+            const text = document.getElementById('text').value;
+            if (!text) {
+                showNotification('Please enter text or URL', 'error');
+                return;
+            }
+
+            const qrcodeDiv = document.getElementById('qrcode');
+            qrcodeDiv.innerHTML = '';
+
+            qr = new QRCode(qrcodeDiv, {
+                text: text,
+                width: 256,
+                height: 256,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            document.getElementById('downloadBtn').classList.add('show');
+        }
+
+        function downloadQR() {
+            const img = document.querySelector('#qrcode img');
+            if (!img) return;
+
+            const link = document.createElement('a');
+            link.download = 'qrcode.png';
+            link.href = img.src;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function updateCharCount() {
+            const text = document.getElementById('textInput').value;
+            document.getElementById('charCount').textContent = `Characters: ${text.length}`;
+        }
+
+        function convertCase(type) {
+            const input = document.getElementById('textInput');
+            const text = input.value;
+            
+            if (!text) {
+                showNotification('Please enter text to convert', 'error');
+                return;
+            }
+
+            switch(type) {
+                case 'upper':
+                    input.value = text.toUpperCase();
+                    break;
+                case 'lower':
+                    input.value = text.toLowerCase();
+                    break;
+                case 'title':
+                    input.value = text.toLowerCase().replace(/(?:^|\s)\w/g, letter => letter.toUpperCase());
+                    break;
+                case 'sentence':
+                    input.value = text.toLowerCase().replace(/(^\w|\.\s+\w)/g, letter => letter.toUpperCase());
+                    break;
+            }
+            showNotification('Text converted successfully!', 'success');
+        }
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: clamp(0.75rem, 2vw, 1rem);
+                border-radius: 6px;
+                color: white;
+                background: ${type === 'error' ? '#dc3545' : '#28a745'};
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                z-index: 1000;
+                animation: slideIn 0.3s ease-out;
+                font-size: clamp(0.875rem, 2vw, 1rem);
+                max-width: 90vw;
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker</title>
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            animation: gradientBG 20s ease infinite;
+        }
+
+        ::selection {
+            background-color: var(--primary);
+            color: blue;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .color-picker-container {
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 1rem;
+            width: 100%;
+            max-width: 32rem;
+            position: relative;
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .color-picker-container:hover {
+            transform: translateY(-2px);
+        }
+
+        .color-display {
+            width: 100%;
+            height: 8rem;
+            margin-bottom: 1rem;
+            position: relative;
+            border-radius: 0.6rem;
+            cursor: crosshair;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .color-slider {
+            width: 100%;
+            height: 0.3rem;
+            background-color: rgba(255, 255, 255, 0.08);
+            border: none;
+            margin: 0.6rem 0;
+            border-radius: 0.2rem;
+            -webkit-appearance: none;
+            appearance: none;
+            transition: all 0.3s ease;
+        }
+
+        .color-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 0.8rem;
+            height: 0.8rem;
+            background-color: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .color-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .color-value {
+            background-color: rgba(255, 255, 255, 0.108);
+            padding: 0.6rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .color-value:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            background-color: #2563eb;
+        }
+
+        .eyedropper-tool {
+            position: fixed;
+            bottom: 0.8rem;
+            right: 0.8rem;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.6rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.8rem;
+        }
+
+        .eyedropper-tool:hover {
+            transform: scale(1.1) rotate(15deg);
+            background-color: #2563eb;
+        }
+
+        .scheme-color {
+            height: 2.5rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .scheme-color:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .copy-notification {
+            position: fixed;
+            top: 0.8rem;
+            right: 0.8rem;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            transform: translateY(-20px);
+            z-index: 1000;
+            font-size: 0.8rem;
+        }
+
+        .copy-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .Name {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            color: var(--light);
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .Name:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 640px) {
+            .color-picker-container {
+                padding: 0.8rem;
+            }
+
+            .color-values {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0.6rem;
+            }
+
+            .buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="Name" title="Back to Portfolio"><i class="fa-solid fa-code"></i> Bidhan.</a>
+    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-center" style="font-family: 'Orbitron', sans-serif;" data-aos="fade-down">
+    Color Picker
+    </h1>
+    
+    <div class="color-picker-container" data-aos="fade-up">
+        <div class="color-display" id="colorDisplay"></div>
+        
+        <div class="color-history grid grid-cols-5 sm:grid-cols-10 gap-2 mb-4" id="colorHistory"></div>
+
+        <div class="space-y-2">
+            <div class="flex items-center gap-3">
+                <span class="w-16">Red</span>
+                <input type="range" min="0" max="255" value="0" class="color-slider flex-1" id="redSlider" style="background: linear-gradient(to right, #000, #f00)">
+                <span class="w-10 text-right" id="redValue">0</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="w-16">Green</span>
+                <input type="range" min="0" max="255" value="0" class="color-slider flex-1" id="greenSlider" style="background: linear-gradient(to right, #000, #0f0)">
+                <span class="w-10 text-right" id="greenValue">0</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="w-16">Blue</span>
+                <input type="range" min="0" max="255" value="0" class="color-slider flex-1" id="blueSlider" style="background: linear-gradient(to right, #000, #00f)">
+                <span class="w-10 text-right" id="blueValue">0</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="w-16">Alpha</span>
+                <input type="range" min="0" max="100" value="100" class="color-slider flex-1" id="alphaSlider" style="background: linear-gradient(to right, transparent, #fff)">
+                <span class="w-10 text-right" id="alphaValue">100</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-4">
+            <div class="color-value group" id="hexValue" role="button" tabindex="0">#000000</div>
+            <div class="color-value group" id="rgbValue" role="button" tabindex="0">rgba(0, 0, 0, 1)</div>
+            <div class="color-value group" id="hslValue" role="button" tabindex="0">hsl(0, 0%, 0%)</div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3">
+            <button class="btn" id="randomColor" type="button">
+                <i class="fas fa-random mr-2"></i>Random
+            </button>
+            <button class="btn" id="generateScheme" type="button">
+                <i class="fas fa-palette mr-2"></i>Schemes
+            </button>
+            <button class="btn" id="saveColor" type="button">
+                <i class="fas fa-save mr-2"></i>Save
+            </button>
+        </div>
+
+        <div class="color-schemes mt-6" id="colorSchemes"></div>
+    </div>
+
+    <button class="eyedropper-tool" id="eyedropper" title="Pick color from screen" type="button">
+        <i class="fas fa-eye-dropper text-lg"></i>
+    </button>
+
+    <div class="copy-notification" id="copyNotification" role="alert" aria-live="polite">
+        <i class="fas fa-check-circle mr-2"></i>Color copied!
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize variables
+        const redSlider = document.getElementById('redSlider');
+        const greenSlider = document.getElementById('greenSlider');
+        const blueSlider = document.getElementById('blueSlider');
+        const alphaSlider = document.getElementById('alphaSlider');
+        const colorDisplay = document.getElementById('colorDisplay');
+        const hexValue = document.getElementById('hexValue');
+        const rgbValue = document.getElementById('rgbValue');
+        const hslValue = document.getElementById('hslValue');
+        const colorHistory = document.getElementById('colorHistory');
+        const copyNotification = document.getElementById('copyNotification');
+        const colorSchemes = document.getElementById('colorSchemes');
+        let colorHistoryArray = [];
+
+        // Update color function
+        function updateColor(saveToHistory = true) {
+            const r = parseInt(redSlider.value);
+            const g = parseInt(greenSlider.value);
+            const b = parseInt(blueSlider.value);
+            const a = parseInt(alphaSlider.value) / 100;
+
+            const color = `rgba(${r}, ${g}, ${b}, ${a})`;
+            colorDisplay.style.backgroundColor = color;
+
+            // Update value displays
+            document.getElementById('redValue').textContent = r;
+            document.getElementById('greenValue').textContent = g;
+            document.getElementById('blueValue').textContent = b;
+            document.getElementById('alphaValue').textContent = Math.round(a * 100);
+
+            // Convert to hex
+            const hex = rgbToHex(r, g, b);
+            hexValue.textContent = hex;
+
+            // Update RGB value
+            rgbValue.textContent = color;
+
+            // Convert to HSL and update
+            const hsl = rgbToHsl(r, g, b);
+            hslValue.textContent = `hsl(${Math.round(hsl.h)}deg, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%)`;
+
+            if (saveToHistory) {
+                addToHistory(color);
+            }
+        }
+
+        // Color conversion functions
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(x => {
+                const hex = x.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            }).join('');
+        }
+
+        function rgbToHsl(r, g, b) {
+            r /= 255;
+            g /= 255;
+            b /= 255;
+            const max = Math.max(r, g, b);
+            const min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0;
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+
+            return {
+                h: h * 360,
+                s: s * 100,
+                l: l * 100
+            };
+        }
+
+        // Add color to history
+        function addToHistory(color) {
+            if (colorHistoryArray.includes(color)) return;
+            
+            colorHistoryArray.unshift(color);
+            if (colorHistoryArray.length > 10) {
+                colorHistoryArray.pop();
+            }
+            
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            colorHistory.innerHTML = '';
+            colorHistoryArray.forEach(color => {
+                const div = document.createElement('div');
+                div.className = 'scheme-color';
+                div.style.backgroundColor = color;
+                div.addEventListener('click', () => {
+                    const rgba = color.match(/\d+/g);
+                    redSlider.value = rgba[0];
+                    greenSlider.value = rgba[1];
+                    blueSlider.value = rgba[2];
+                    alphaSlider.value = Math.round(rgba[3] * 100);
+                    updateColor(false);
+                });
+                colorHistory.appendChild(div);
+            });
+        }
+
+        // Copy color values
+        [hexValue, rgbValue, hslValue].forEach(element => {
+            element.addEventListener('click', () => {
+                navigator.clipboard.writeText(element.textContent).then(() => {
+                    copyNotification.classList.add('show');
+                    setTimeout(() => {
+                        copyNotification.classList.remove('show');
+                    }, 2000);
+                });
+            });
+        });
+
+        // Random color generator
+        document.getElementById('randomColor').addEventListener('click', () => {
+            redSlider.value = Math.floor(Math.random() * 256);
+            greenSlider.value = Math.floor(Math.random() * 256);
+            blueSlider.value = Math.floor(Math.random() * 256);
+            updateColor();
+        });
+
+        // Generate color schemes
+        document.getElementById('generateScheme').addEventListener('click', () => {
+            const r = parseInt(redSlider.value);
+            const g = parseInt(greenSlider.value);
+            const b = parseInt(blueSlider.value);
+            const hsl = rgbToHsl(r, g, b);
+            
+            const schemes = generateColorSchemes(hsl.h, hsl.s, hsl.l);
+            displayColorSchemes(schemes);
+        });
+
+        function generateColorSchemes(h, s, l) {
+            return {
+                analogous: [
+                    `hsl(${(h - 30 + 360) % 360}deg, ${s}%, ${l}%)`,
+                    `hsl(${h}deg, ${s}%, ${l}%)`,
+                    `hsl(${(h + 30) % 360}deg, ${s}%, ${l}%)`
+                ],
+                triadic: [
+                    `hsl(${h}deg, ${s}%, ${l}%)`,
+                    `hsl(${(h + 120) % 360}deg, ${s}%, ${l}%)`,
+                    `hsl(${(h + 240) % 360}deg, ${s}%, ${l}%)`
+                ],
+                complementary: [
+                    `hsl(${h}deg, ${s}%, ${l}%)`,
+                    `hsl(${(h + 180) % 360}deg, ${s}%, ${l}%)`
+                ]
+            };
+        }
+
+        function displayColorSchemes(schemes) {
+            colorSchemes.innerHTML = '';
+            Object.entries(schemes).forEach(([name, colors]) => {
+                const schemeContainer = document.createElement('div');
+                schemeContainer.className = 'space-y-2';
+                
+                const title = document.createElement('h3');
+                title.className = 'text-primary capitalize text-sm';
+                title.textContent = name;
+                schemeContainer.appendChild(title);
+
+                const colorsContainer = document.createElement('div');
+                colorsContainer.className = 'grid grid-cols-3 gap-2';
+
+                colors.forEach(color => {
+                    const colorDiv = document.createElement('div');
+                    colorDiv.className = 'scheme-color';
+                    colorDiv.style.backgroundColor = color;
+                    colorDiv.addEventListener('click', () => {
+                        const hsl = color.match(/\d+/g);
+                        const rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
+                        redSlider.value = rgb.r;
+                        greenSlider.value = rgb.g;
+                        blueSlider.value = rgb.b;
+                        updateColor();
+                    });
+                    colorsContainer.appendChild(colorDiv);
+                });
+
+                schemeContainer.appendChild(colorsContainer);
+                colorSchemes.appendChild(schemeContainer);
+            });
+        }
+
+        function hslToRgb(h, s, l) {
+            h /= 360;
+            s /= 100;
+            l /= 100;
+            let r, g, b;
+
+            if (s === 0) {
+                r = g = b = l;
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+
+            return {
+                r: Math.round(r * 255),
+                g: Math.round(g * 255),
+                b: Math.round(b * 255)
+            };
+        }
+
+        // Add event listeners
+        [redSlider, greenSlider, blueSlider, alphaSlider].forEach(slider => {
+            slider.addEventListener('input', () => updateColor());
+        });
+
+        // Add eyedropper functionality
+        const eyedropperBtn = document.getElementById('eyedropper');
+        if ('EyeDropper' in window) {
+            eyedropperBtn.addEventListener('click', async () => {
+                try {
+                    const eyeDropper = new EyeDropper();
+                    const result = await eyeDropper.open();
+                    const color = result.sRGBHex;
+                    const rgb = hexToRgb(color);
+                    if (rgb) {
+                        redSlider.value = rgb.r;
+                        greenSlider.value = rgb.g;
+                        blueSlider.value = rgb.b;
+                        updateColor();
+                    }
+                } catch (err) {
+                    console.error('EyeDropper error:', err);
+                }
+            });
+        } else {
+            eyedropperBtn.style.display = 'none';
+        }
+
+        // Add hex to RGB conversion
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        // Add save color functionality
+        document.getElementById('saveColor').addEventListener('click', () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = 100;
+            canvas.height = 100;
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+                ctx.fillStyle = `rgba(${redSlider.value}, ${greenSlider.value}, ${blueSlider.value}, ${alphaSlider.value / 100})`;
+                ctx.fillRect(0, 0, 100, 100);
+                
+                const link = document.createElement('a');
+                link.download = 'color.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            }
+        });
+
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+
+        // Initial update
+        updateColor();
+    </script>
+</body>
+</html>
