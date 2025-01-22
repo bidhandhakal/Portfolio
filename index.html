@@ -38,12 +38,11 @@
             <ul class="hidden md:flex space-x-8 mono list-none m-0 p-0 desktop-menu">
                 <li><a href="#home" class="nav-link hover:text-[var(--primary)]">.home()</a></li>
                 <li><a href="#about" class="nav-link hover:text-[var(--primary)]">.about()</a></li>
-                <li><a href="#work" class="nav-link hover:text-[var(--primary)]">.work()</a></li>
+                <li><a href="#projects" class="nav-link hover:text-[var(--primary)]">.projects()</a></li>
                 <li><a href="#contact" class="nav-link hover:text-[var(--primary)]">.contact()</a></li>
             </ul>
         </nav>
 
-        <!-- Mobile Menu -->
         <div class="mobile-menu">
             <div class="close-menu">
                 <i class="fas fa-times"></i>
@@ -51,13 +50,13 @@
             <ul class="mono">
                 <li><a href="#home" class="nav-link hover:text-[var(--primary)]">.home()</a></li>
                 <li><a href="#about" class="nav-link hover:text-[var(--primary)]">.about()</a></li>
-                <li><a href="#work" class="nav-link hover:text-[var(--primary)]">.work()</a></li>
+                <li><a href="#projects" class="nav-link hover:text-[var(--primary)]">.projects()</a></li>
                 <li><a href="#contact" class="nav-link hover:text-[var(--primary)]">.contact()</a></li>
             </ul>
             <div class="social-icons">
-                <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/BidhanDhakal" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/bidhan-dhakal-487347337/" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61556013907076" target="_blank" class="social-icon" ><i class="fa-brands fa-facebook"></i></a>
             </div>
         </div>
     </header>
@@ -67,7 +66,7 @@
             <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">
                 <h1 class="text-4xl md:text-6xl font-bold gradient-text mb-6">Hello, I'm Bidhan</h1>
                 <p class="text-lg md:text-xl text-[var(--lighter)] mb-8">I craft beautiful web experiences</p>
-                <a href="#work" class="btn">View My Work</a>
+                <a href="#projects" class="btn">View My Projects</a>
             </div>
         </section>
 
@@ -75,7 +74,7 @@
             <div class="max-w-4xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div data-aos="fade-right">
                     <h2 class="text-4xl md:text-5xl font-bold gradient-text mb-8">.about()</h2>
-                    <p class="text-lg md:text-xl text-[var(--lighter)] mb-8 leading-relaxed">I'm a passionate web
+                    <p class="text-lg md:text-xl text-[var(--lighter)]  mb-8 leading-relaxed">I'm a passionate web
                         developer with expertise in creating
                         modern, responsive web applications. I love working with cutting-edge technologies and crafting
                         seamless user experiences.</p>
@@ -95,9 +94,9 @@
             </div>
         </section>
 
-        <section id="work" class="min-h-screen flex items-center justify-center">
+        <section id="projects" class="min-h-screen flex items-center justify-center">
             <div class="max-w-6xl mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-12 text-center" data-aos="fade-up">.work()
+                <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-12 text-center" data-aos="fade-up">.projects()
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="100">
@@ -124,6 +123,14 @@
                         <button onclick="window.open('url.html', '_blank')" class="btn w-full">View <i
                                 class="fa-solid fa-arrow-up-right-from-square ml-2"></i></button>
                     </div>
+                    <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="200">
+                        <img src="tic-tac-toe-svgrepo-com.svg" alt="URL Tools Project" class="w-[170px] mx-auto mb-4">
+                        <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Tic-Tac-Toe</h3>
+                        <p class="text-[var(--lighter)] mb-4">A simple and fun game of Tic-Tac-Toe that you can play with your friends.</p>
+                        <button onclick="window.open('tic-tac-toe.html', '_blank')" class="btn w-full">View <i
+                                class="fa-solid fa-arrow-up-right-from-square ml-2"></i></button>
+                    </div>
+
                     <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="300">
                         <img src="question-mark.svg" alt="Coming Soon Project" class="w-[170px] mx-auto mb-4">
                         <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Coming Soon!</h3>
@@ -185,8 +192,8 @@
                             class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.home()</a>
                         <a href="#about"
                             class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.about()</a>
-                        <a href="#work"
-                            class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.work()</a>
+                        <a href="#projects"
+                            class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.projects()</a>
                         <a href="#contact"
                             class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.contact()</a>
                     </nav>
@@ -195,7 +202,7 @@
             <div class="border-t border-[var(--lighter)]/10 mt-6 pt-6">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <p class="text-[var(--lighter)] text-sm mb-4 md:mb-0">
-                        © 2024 Bidhan Dhakal. All rights reserved.
+                        © 2025 Bidhan Dhakal. All rights reserved.
                     </p>
                     <div class="flex items-center gap-4">
                         <a href="#"

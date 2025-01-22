@@ -145,14 +145,14 @@ section {
 }
 
 .btn {
-    padding: 0.75rem 1.5rem;
+    padding: 0.95rem 1.5rem;
     border-radius: 0.375rem;
     font-family: 'Space Mono', monospace;
     transition: all 0.3s ease;
     border: 1px solid var(--primary);
     color: var(--primary);
     text-decoration: none;
-    cursor: pointer;
+    cursor: none;
     position: relative;
     overflow: hidden;
     background: transparent;
@@ -162,7 +162,7 @@ section {
     background: var(--primary);
     color: var(--darker);
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(100, 255, 218, 0.4);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.4);
 }
 
 .input {
@@ -232,7 +232,7 @@ section {
     }
 }
 
-/* Mobile Menu Styles */
+
 .mobile-menu {
     display: none;
     position: fixed;

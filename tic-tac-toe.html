@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .Name {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            color: white;
+            font-size: 1rem;
+            text-decoration: none;
+            z-index: 1000;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 50px;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #1e1e2e;
+            transition: all 0.5s ease;
+            overflow-x: hidden;
+        }
+
+        body.player-x {
+            background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+        }
+
+        body.player-o {
+            background: linear-gradient(135deg, #4d4dff, #1a1aff);
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 0 auto;
+            max-width: 450px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cell {
+            width: 100%;
+            padding-bottom: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .cell:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .cell img {
+            position: absolute;
+            width: 75%;
+            height: 75%;
+            top: 12.5%;
+            left: 12.5%;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+
+        .cell.filled img {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .cell.x img {
+            filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.5));
+        }
+
+        .cell.o img {
+            filter: drop-shadow(0 0 8px rgba(0, 0, 255, 0.5));
+        }
+
+        .status {
+            color: #fff;
+            font-size: 1.5rem;
+            margin: 20px 0;
+            font-weight: 600;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .controls {
+            margin: 25px 0;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .reset-btn, .difficulty-select {
+            padding: 12px 24px;
+            font-size: 1.3rem;
+            background: rgba(151, 150, 150, 0.2);
+            color: rgb(86, 62, 62);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-weight: 500;
+        }
+
+        .reset-btn:hover, .difficulty-select:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .board {
+                padding: 12px;
+                gap: 8px;
+            }
+
+            .controls {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body class="player-x">
+    <a href="index.html" class="Name" title="Back to Portfolio"><i class="fa-solid fa-code"></i> Bidhan.</a>
+    <div class="container">
+        <div class="status">Player X's Turn</div>
+        <div class="controls">
+            <select class="difficulty-select">
+                <option value="easy">Easy Bot</option>
+                <option value="medium">Medium Bot</option>
+                <option value="hard">Hard Bot</option>
+                <option value="2player">2 Players</option>
+            </select>
+            <button class="reset-btn">Reset Game</button>
+        </div>
+        <div class="board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+    </div>
+
+    <script>
+        const cells = document.querySelectorAll('.cell');
+        const status = document.querySelector('.status');
+        const resetBtn = document.querySelector('.reset-btn');
+        const difficultySelect = document.querySelector('.difficulty-select');
+        let currentPlayer = 'X';
+        let gameBoard = ['', '', '', '', '', '', '', '', ''];
+        let gameActive = true;
+        let isAgainstBot = true;
+
+        const xImageUrl = 'https://raw.githubusercontent.com/google/material-design-icons/master/src/content/clear/materialicons/24px.svg';
+        const oImageUrl = 'https://raw.githubusercontent.com/google/material-design-icons/master/src/image/panorama_fish_eye/materialicons/24px.svg';
+
+        const winningCombinations = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        function handleCellClick(e) {
+            const cell = e.target;
+            const index = parseInt(cell.getAttribute('data-index'));
+
+            if (gameBoard[index] !== '' || !gameActive) return;
+            
+            makeMove(index);
+
+            if (gameActive && isAgainstBot && difficultySelect.value !== '2player') {
+                setTimeout(makeBotMove, 500);
+            }
+        }
+
+        function makeMove(index) {
+            const cell = cells[index];
+            const img = document.createElement('img');
+            img.src = currentPlayer === 'X' ? xImageUrl : oImageUrl;
+            cell.appendChild(img);
+            cell.classList.add('filled');
+            cell.classList.add(currentPlayer.toLowerCase());
+
+            gameBoard[index] = currentPlayer;
+            
+            if (checkWin()) {
+                status.textContent = `Player ${currentPlayer} Wins!`;
+                gameActive = false;
+                return;
+            }
+
+            if (checkDraw()) {
+                status.textContent = "Game Draw!";
+                gameActive = false;
+                return;
+            }
+
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            document.body.className = currentPlayer === 'X' ? 'player-x' : 'player-o';
+            status.textContent = `Player ${currentPlayer}'s Turn`;
+        }
+
+        function makeBotMove() {
+            if (!gameActive) return;
+
+            let index;
+            const difficulty = difficultySelect.value;
+
+            switch(difficulty) {
+                case 'hard':
+                    index = getBestMove();
+                    break;
+                case 'medium':
+                    index = Math.random() < 0.6 ? getBestMove() : getRandomEmptyCell();
+                    break;
+                case 'easy':
+                    index = getRandomEmptyCell();
+                    break;
+            }
+
+            if (index !== null) {
+                makeMove(index);
+            }
+        }
+
+        function getBestMove() {
+            let bestScore = -Infinity;
+            let bestMove = null;
+
+            for (let i = 0; i < 9; i++) {
+                if (gameBoard[i] === '') {
+                    gameBoard[i] = 'O';
+                    let score = minimax(gameBoard, 0, false);
+                    gameBoard[i] = '';
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMove = i;
+                    }
+                }
+            }
+            return bestMove;
+        }
+
+        function minimax(board, depth, isMaximizing) {
+            if (checkWinForMinimax('O')) return 1;
+            if (checkWinForMinimax('X')) return -1;
+            if (checkDraw()) return 0;
+
+            if (isMaximizing) {
+                let bestScore = -Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] === '') {
+                        board[i] = 'O';
+                        let score = minimax(board, depth + 1, false);
+                        board[i] = '';
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+                return bestScore;
+            } else {
+                let bestScore = Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] === '') {
+                        board[i] = 'X';
+                        let score = minimax(board, depth + 1, true);
+                        board[i] = '';
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+                return bestScore;
+            }
+        }
+
+        function checkWinForMinimax(player) {
+            return winningCombinations.some(combination => {
+                return combination.every(index => gameBoard[index] === player);
+            });
+        }
+
+        function getRandomEmptyCell() {
+            const emptyCells = gameBoard.reduce((acc, cell, index) => {
+                if (cell === '') acc.push(index);
+                return acc;
+            }, []);
+            
+            if (emptyCells.length === 0) return null;
+            return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        }
+
+        function checkWin() {
+            return winningCombinations.some(combination => {
+                return combination.every(index => {
+                    return gameBoard[index] === currentPlayer;
+                });
+            });
+        }
+
+        function checkDraw() {
+            return gameBoard.every(cell => cell !== '');
+        }
+
+        function resetGame() {
+            gameBoard = ['', '', '', '', '', '', '', '', ''];
+            gameActive = true;
+            currentPlayer = 'X';
+            document.body.className = 'player-x';
+            status.textContent = `Player ${currentPlayer}'s Turn`;
+            
+            cells.forEach(cell => {
+                cell.innerHTML = '';
+                cell.classList.remove('filled', 'x', 'o');
+            });
+
+            isAgainstBot = difficultySelect.value !== '2player';
+        }
+
+        difficultySelect.addEventListener('change', resetGame);
+        cells.forEach(cell => {
+            cell.addEventListener('click', handleCellClick);
+        });
+        resetBtn.addEventListener('click', resetGame);
+    </script>
+</body>
+</html>
