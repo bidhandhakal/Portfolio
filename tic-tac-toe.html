@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
+    <link rel="shortcut icon" href="tic-tac-toe-svgrepo-com.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Orbitron', sans-serif;
         }
 
         .Name {
@@ -44,11 +48,11 @@
         }
 
         body.player-x {
-            background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+            background-color: #ff1a1a;
         }
 
         body.player-o {
-            background: linear-gradient(135deg, #4d4dff, #1a1aff);
+            background:  #1a1aff;
         }
 
         .container {
@@ -58,8 +62,8 @@
             max-width: 600px;
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0);
+            border: 1px solid rgba(255, 255, 255, 0);
             animation: fadeIn 0.5s ease;
         }
 
@@ -78,28 +82,30 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: 20px;
+            background: rgb(0, 0, 0);
             margin: 0 auto;
             max-width: 450px;
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .cell {
             width: 100%;
             padding-bottom: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
             cursor: pointer;
             position: relative;
-            transition: background 0.3s ease;
-            border: 2px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        body.player-x .cell {
+            background: #ff1a1a;
+        }
+
+        body.player-o .cell {
+            background: #1a1aff;
         }
 
         .cell:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgb(0, 0, 0);
         }
 
         .cell img {
@@ -118,20 +124,12 @@
             transform: scale(1);
         }
 
-        .cell.x img {
-            filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.5));
-        }
-
-        .cell.o img {
-            filter: drop-shadow(0 0 8px rgba(0, 0, 255, 0.5));
-        }
-
         .status {
             color: #fff;
-            font-size: 1.5rem;
+            font-size: 3rem;
             margin: 20px 0;
             font-weight: 600;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.564);
         }
 
         .controls {
@@ -146,12 +144,13 @@
             padding: 12px 24px;
             font-size: 1.3rem;
             background: rgba(151, 150, 150, 0.2);
-            color: rgb(86, 62, 62);
+            color: rgb(0, 0, 0);
             border: none;
             border-radius: 10px;
             cursor: pointer;
             transition: background 0.3s ease;
             font-weight: 500;
+            border: 3px solid rgba(201, 88, 88, 0.338);
         }
 
         .reset-btn:hover, .difficulty-select:hover {
@@ -210,8 +209,8 @@
         let gameActive = true;
         let isAgainstBot = true;
 
-        const xImageUrl = 'https://raw.githubusercontent.com/google/material-design-icons/master/src/content/clear/materialicons/24px.svg';
-        const oImageUrl = 'https://raw.githubusercontent.com/google/material-design-icons/master/src/image/panorama_fish_eye/materialicons/24px.svg';
+        const xImageUrl = 'cross.png';
+        const oImageUrl = 'circle1.svg';
 
         const winningCombinations = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8],
