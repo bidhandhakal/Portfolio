@@ -93,7 +93,7 @@
             padding-bottom: 100%;
             cursor: pointer;
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
         }
 
         body.player-x .cell {
@@ -104,8 +104,25 @@
             background: #1a1aff;
         }
 
-        .cell:hover {
-            background: rgb(0, 0, 0);
+        .cell:not(.filled):hover::before {
+            content: '';
+            position: absolute;
+            width: 75%;
+            height: 75%;
+            top: 12.5%;
+            left: 12.5%;
+            opacity: 0.3;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        body.player-x .cell:not(.filled):hover::before {
+            background-image: url('cross.png');
+        }
+
+        body.player-o .cell:not(.filled):hover::before {
+            background-image: url('circle.svg');
         }
 
         .cell img {
@@ -210,7 +227,11 @@
         let isAgainstBot = true;
 
         const xImageUrl = 'cross.png';
-        const oImageUrl = 'circle1.svg';
+        const oImageUrl = 'circle.svg';
+
+
+        const crossSound = new Audio('cross.mp3'); 
+        const circleSound = new Audio('circle.mp3');
 
         const winningCombinations = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -238,6 +259,13 @@
             cell.appendChild(img);
             cell.classList.add('filled');
             cell.classList.add(currentPlayer.toLowerCase());
+
+            // Play sound based on current player
+            if (currentPlayer === 'X') {
+                crossSound.play();
+            } else {
+                circleSound.play();
+            }
 
             gameBoard[index] = currentPlayer;
             
