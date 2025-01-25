@@ -174,6 +174,45 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            z-index: 1000;
+            animation: popIn 0.3s ease;
+        }
+
+        .popup.show {
+            display: block;
+        }
+
+        .popup h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .popup p {
+            font-size: 1.5rem;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
         @media (max-width: 400px) {
             .container {
                 padding: 1rem;
@@ -191,6 +230,10 @@
     </style>
 </head>
 <body class="player-x">
+    <div class="popup">
+        <h2></h2>
+        <p>Game resets in <span class="countdown">3</span> seconds</p>
+    </div>
     <a href="index.html" class="Name" title="Back to Portfolio"><i class="fa-solid fa-code"></i> Bidhan.</a>
     <div class="container">
         <div class="status">Player X's Turn</div>
@@ -221,6 +264,9 @@
         const status = document.querySelector('.status');
         const resetBtn = document.querySelector('.reset-btn');
         const difficultySelect = document.querySelector('.difficulty-select');
+        const popup = document.querySelector('.popup');
+        const popupTitle = popup.querySelector('h2');
+        const countdown = popup.querySelector('.countdown');
         let currentPlayer = 'X';
         let gameBoard = ['', '', '', '', '', '', '', '', ''];
         let gameActive = true;
@@ -228,7 +274,6 @@
 
         const xImageUrl = 'cross.png';
         const oImageUrl = 'circle.svg';
-
 
         const crossSound = new Audio('cross.mp3'); 
         const circleSound = new Audio('circle.mp3');
@@ -252,6 +297,23 @@
             }
         }
 
+        function showGameEndPopup(message) {
+            popupTitle.textContent = message;
+            popup.classList.add('show');
+            let count = 3;
+            countdown.textContent = count;
+            
+            const countdownInterval = setInterval(() => {
+                count--;
+                countdown.textContent = count;
+                if (count === 0) {
+                    clearInterval(countdownInterval);
+                    popup.classList.remove('show');
+                    resetGame();
+                }
+            }, 1000);
+        }
+
         function makeMove(index) {
             const cell = cells[index];
             const img = document.createElement('img');
@@ -272,12 +334,14 @@
             if (checkWin()) {
                 status.textContent = `Player ${currentPlayer} Wins!`;
                 gameActive = false;
+                showGameEndPopup(`Player ${currentPlayer} Wins!`);
                 return;
             }
 
             if (checkDraw()) {
                 status.textContent = "Game Draw!";
                 gameActive = false;
+                showGameEndPopup("Game Draw!");
                 return;
             }
 
