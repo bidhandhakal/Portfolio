@@ -17,6 +17,100 @@
             font-family: 'Orbitron', sans-serif;
         }
 
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1e1e2e, #2a2a3a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease;
+        }
+
+        .loader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .loader-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            transform: rotate(45deg);
+        }
+
+        .loader-cell {
+            width: 35px;
+            height: 35px;
+            background: transparent;
+            border: 3px solid #fff;
+            border-radius: 8px;
+            animation: pulse 1.8s infinite;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .loader-cell:nth-child(odd) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                border-color: #ff1a1a;
+                box-shadow: 0 0 20px rgba(255, 26, 26, 0.5);
+            }
+            50% {
+                transform: scale(1.3);
+                border-color: #1a1aff;
+                box-shadow: 0 0 30px rgba(26, 26, 255, 0.5);
+            }
+            100% {
+                transform: scale(1);
+                border-color: #ff1a1a;
+                box-shadow: 0 0 20px rgba(255, 26, 26, 0.5);
+            }
+        }
+
+        .loader-text {
+            color: #fff;
+            font-size: 2rem;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: glow 1.5s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { 
+                opacity: 1;
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+            }
+            50% { 
+                opacity: 0.5;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+        }
+
         .Name {
             position: fixed;
             top: 1rem;
@@ -86,6 +180,7 @@
             margin: 0 auto;
             max-width: 450px;
             backdrop-filter: blur(5px);
+            perspective: 1000px;
         }
 
         .cell {
@@ -94,6 +189,32 @@
             cursor: pointer;
             position: relative;
             transition: all 0.5s ease;
+            transform-style: preserve-3d;
+        }
+
+        .cell.animate-reset {
+            animation: resetCell 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes resetCell {
+            0% {
+                transform: rotateY(0) translateZ(0) scale(1);
+                opacity: 1;
+            }
+            25% {
+                transform: rotateY(90deg) translateZ(50px) scale(1.2);
+            }
+            50% {
+                transform: rotateY(180deg) translateZ(100px) scale(0.8);
+                opacity: 0.5;
+            }
+            75% {
+                transform: rotateY(270deg) translateZ(50px) scale(1.2);
+            }
+            100% {
+                transform: rotateY(360deg) translateZ(0) scale(1);
+                opacity: 1;
+            }
         }
 
         body.player-x .cell {
@@ -187,6 +308,18 @@
             text-align: center;
             z-index: 1000;
             animation: popIn 0.3s ease;
+            cursor: pointer;
+        }
+
+        .popup i {
+            font-size: 2rem;
+            margin-top: 1rem;
+            color: #fff;
+            transition: transform 0.3s ease;
+        }
+
+        .popup i:hover {
+            transform: rotate(180deg);
         }
 
         .popup.show {
@@ -230,9 +363,27 @@
     </style>
 </head>
 <body class="player-x">
+    <div class="loader">
+        <div class="loader-content">
+            <div class="loader-grid">
+                <div class="loader-cell"></div>
+                <div class="loader-cell"></div>
+                <div class="loader-cell"></div>
+                <div class="loader-cell"></div>
+                <div class="loader-cell"></div>
+                <div class="loader-cell"></div>
+                <div class="loader-cell"></div>
+                <div class="loader-cell"></div>
+                <div class="loader-cell"></div>
+            </div>
+            <div class="loader-text">LOADING...</div>
+        </div>
+    </div>
     <div class="popup">
         <h2></h2>
-        <p>Game resets in <span class="countdown">3</span> seconds</p>
+        <p>Auto reset in <span id="countdown">5</span> seconds</p>
+        <p>Click the icon to restart now</p>
+        <i class="fa-solid fa-rotate"></i>
     </div>
     <a href="index.html" class="Name" title="Back to Portfolio"><i class="fa-solid fa-code"></i> Bidhan.</a>
     <div class="container">
@@ -260,17 +411,25 @@
     </div>
 
     <script>
+        // Add loader functionality
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('fade-out');
+            }, 2000);
+        });
+
         const cells = document.querySelectorAll('.cell');
         const status = document.querySelector('.status');
         const resetBtn = document.querySelector('.reset-btn');
         const difficultySelect = document.querySelector('.difficulty-select');
         const popup = document.querySelector('.popup');
         const popupTitle = popup.querySelector('h2');
-        const countdown = popup.querySelector('.countdown');
+        const countdownEl = document.getElementById('countdown');
         let currentPlayer = 'X';
         let gameBoard = ['', '', '', '', '', '', '', '', ''];
         let gameActive = true;
         let isAgainstBot = true;
+        let countdownInterval;
 
         
         const xImage = new Image();
@@ -282,6 +441,8 @@
 
         const crossSound = new Audio('cross.mp3'); 
         const circleSound = new Audio('circle.mp3');
+        const drawSound = new Audio('draw.mp3');
+        const wonSound = new Audio('won.mp3');
 
         const winningCombinations = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -303,21 +464,36 @@
         }
 
         function showGameEndPopup(message) {
+            if (message === "Game Draw!") {
+                drawSound.play();
+                resetGame();
+                return;
+            }
+            
+            wonSound.play();
             popupTitle.textContent = message;
             popup.classList.add('show');
-            let count = 3;
-            countdown.textContent = count;
             
-            const countdownInterval = setInterval(() => {
-                count--;
-                countdown.textContent = count;
-                if (count === 0) {
+            let countdown = 5;
+            countdownEl.textContent = countdown;
+            
+            countdownInterval = setInterval(() => {
+                countdown--;
+                countdownEl.textContent = countdown;
+                
+                if (countdown <= 0) {
                     clearInterval(countdownInterval);
                     popup.classList.remove('show');
                     resetGame();
                 }
             }, 1000);
         }
+
+        popup.addEventListener('click', () => {
+            clearInterval(countdownInterval);
+            popup.classList.remove('show');
+            resetGame();
+        });
 
         function makeMove(index) {
             const cell = cells[index];
@@ -455,6 +631,7 @@
         }
 
         function resetGame() {
+            clearInterval(countdownInterval);
             gameBoard = ['', '', '', '', '', '', '', '', ''];
             gameActive = true;
             currentPlayer = 'X';
