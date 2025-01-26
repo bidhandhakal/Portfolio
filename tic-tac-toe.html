@@ -272,8 +272,13 @@
         let gameActive = true;
         let isAgainstBot = true;
 
-        const xImageUrl = 'cross.png';
-        const oImageUrl = 'circle.svg';
+        
+        const xImage = new Image();
+        xImage.src = 'cross.png';
+        const oImage = new Image(); 
+        oImage.src = 'circle.svg';
+        const xImageUrl = xImage.src;
+        const oImageUrl = oImage.src;
 
         const crossSound = new Audio('cross.mp3'); 
         const circleSound = new Audio('circle.mp3');
