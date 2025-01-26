@@ -434,7 +434,6 @@
         let countdownInterval;
         let isBotTurn = false;
 
-        
         const xImage = new Image();
         xImage.src = 'cross.png';
         const oImage = new Image(); 
@@ -475,7 +474,9 @@
         function showGameEndPopup(message) {
             if (message === "Game Draw!") {
                 drawSound.play();
-                resetGame();
+                setTimeout(() => {
+                    resetGame();
+                }, 1000);
                 return;
             }
             
@@ -566,24 +567,57 @@
         function getBestMove() {
             let bestScore = -Infinity;
             let bestMove = null;
+            const availableMoves = [];
 
+            // First move optimization - take center if available
+            if (gameBoard.filter(cell => cell !== '').length === 0) {
+                return 4;
+            }
+
+            // Get all available moves
             for (let i = 0; i < 9; i++) {
                 if (gameBoard[i] === '') {
-                    gameBoard[i] = 'O';
-                    let score = minimax(gameBoard, 0, false);
-                    gameBoard[i] = '';
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestMove = i;
-                    }
+                    availableMoves.push(i);
                 }
             }
+
+            // Check for immediate win
+            for (let move of availableMoves) {
+                gameBoard[move] = 'O';
+                if (checkWinForMinimax('O')) {
+                    gameBoard[move] = '';
+                    return move;
+                }
+                gameBoard[move] = '';
+            }
+
+            // Check for immediate block
+            for (let move of availableMoves) {
+                gameBoard[move] = 'X';
+                if (checkWinForMinimax('X')) {
+                    gameBoard[move] = '';
+                    return move;
+                }
+                gameBoard[move] = '';
+            }
+
+            // If no immediate win/block, use minimax
+            for (let move of availableMoves) {
+                gameBoard[move] = 'O';
+                let score = minimax(gameBoard, 0, false, -Infinity, Infinity);
+                gameBoard[move] = '';
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = move;
+                }
+            }
+
             return bestMove;
         }
 
-        function minimax(board, depth, isMaximizing) {
-            if (checkWinForMinimax('O')) return 1;
-            if (checkWinForMinimax('X')) return -1;
+        function minimax(board, depth, isMaximizing, alpha, beta) {
+            if (checkWinForMinimax('O')) return 10 - depth;
+            if (checkWinForMinimax('X')) return depth - 10;
             if (checkDraw()) return 0;
 
             if (isMaximizing) {
@@ -591,9 +625,11 @@
                 for (let i = 0; i < 9; i++) {
                     if (board[i] === '') {
                         board[i] = 'O';
-                        let score = minimax(board, depth + 1, false);
+                        let score = minimax(board, depth + 1, false, alpha, beta);
                         board[i] = '';
                         bestScore = Math.max(score, bestScore);
+                        alpha = Math.max(alpha, score);
+                        if (beta <= alpha) break;
                     }
                 }
                 return bestScore;
@@ -602,9 +638,11 @@
                 for (let i = 0; i < 9; i++) {
                     if (board[i] === '') {
                         board[i] = 'X';
-                        let score = minimax(board, depth + 1, true);
+                        let score = minimax(board, depth + 1, true, alpha, beta);
                         board[i] = '';
                         bestScore = Math.min(score, bestScore);
+                        beta = Math.min(beta, score);
+                        if (beta <= alpha) break;
                     }
                 }
                 return bestScore;
