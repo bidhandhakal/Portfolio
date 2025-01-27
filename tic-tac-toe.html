@@ -396,6 +396,7 @@
                 <option value="medium">Medium Bot</option>
                 <option value="hard">Hard Bot</option>
                 <option value="2player">2 Players</option>
+                <option value="3x3">Sakdainau Babu</option>
             </select>
             <button class="reset-btn"><i class="fa-solid fa-rotate"></i> Reset Game</button>
         </div>
@@ -413,7 +414,6 @@
     </div>
 
     <script>
-        // Add loader functionality
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.querySelector('.loader').classList.add('fade-out');
@@ -433,6 +433,9 @@
         let isAgainstBot = true;
         let countdownInterval;
         let isBotTurn = false;
+        let remainingX = 3;
+        let remainingO = 3;
+        let is3x3Mode = false;
 
         const xImage = new Image();
         xImage.src = 'cross.png';
@@ -453,20 +456,42 @@
         ];
 
         function handleCellClick(e) {
-            if (isBotTurn) return; // Prevent clicks during bot's turn
+            if (isBotTurn) return;
             
             const cell = e.target;
             const index = parseInt(cell.getAttribute('data-index'));
 
             if (gameBoard[index] !== '' || !gameActive) return;
             
+            if (is3x3Mode) {
+                if (currentPlayer === 'X' && remainingX <= 0) {
+
+                    const oldestXIndex = gameBoard.findIndex(cell => cell === 'X');
+                    if (oldestXIndex !== -1) {
+                        gameBoard[oldestXIndex] = '';
+                        cells[oldestXIndex].innerHTML = '';
+                        cells[oldestXIndex].classList.remove('filled', 'x');
+                        remainingX++;
+                    }
+                } else if (currentPlayer === 'O' && remainingO <= 0) {
+
+                    const oldestOIndex = gameBoard.findIndex(cell => cell === 'O');
+                    if (oldestOIndex !== -1) {
+                        gameBoard[oldestOIndex] = '';
+                        cells[oldestOIndex].innerHTML = '';
+                        cells[oldestOIndex].classList.remove('filled', 'o');
+                        remainingO++;
+                    }
+                }
+            }
+
             makeMove(index);
 
             if (gameActive && isAgainstBot && difficultySelect.value !== '2player') {
-                isBotTurn = true; // Set bot's turn
+                isBotTurn = true; 
                 setTimeout(() => {
                     makeBotMove();
-                    isBotTurn = false; // Reset after bot moves
+                    isBotTurn = false; 
                 }, 500);
             }
         }
@@ -513,11 +538,12 @@
             cell.classList.add('filled');
             cell.classList.add(currentPlayer.toLowerCase());
 
-            // Play sound based on current player
             if (currentPlayer === 'X') {
                 crossSound.play();
+                if (is3x3Mode) remainingX--;
             } else {
                 circleSound.play();
+                if (is3x3Mode) remainingO--;
             }
 
             gameBoard[index] = currentPlayer;
@@ -529,7 +555,7 @@
                 return;
             }
 
-            if (checkDraw()) {
+            if (!is3x3Mode && checkDraw()) {
                 status.textContent = "Game Draw!";
                 gameActive = false;
                 showGameEndPopup("Game Draw!");
@@ -547,16 +573,32 @@
             let index;
             const difficulty = difficultySelect.value;
 
-            switch(difficulty) {
-                case 'hard':
-                    index = getBestMove();
-                    break;
-                case 'medium':
-                    index = Math.random() < 0.6 ? getBestMove() : getRandomEmptyCell();
-                    break;
-                case 'easy':
-                    index = getRandomEmptyCell();
-                    break;
+            if (is3x3Mode && remainingO <= 0) {
+
+                const bestMove = getBestMoveFor3x3Mode();
+                if (bestMove.removeIndex !== -1) {
+                    gameBoard[bestMove.removeIndex] = '';
+                    cells[bestMove.removeIndex].innerHTML = '';
+                    cells[bestMove.removeIndex].classList.remove('filled', 'o');
+                    remainingO++;
+                }
+                index = bestMove.newIndex;
+            } else {
+                if (difficulty === '3x3') {
+                    index = getBestMoveFor3x3Mode().newIndex;
+                } else {
+                    switch(difficulty) {
+                        case 'hard':
+                            index = getBestMove();
+                            break;
+                        case 'medium':
+                            index = Math.random() < 0.6 ? getBestMove() : getRandomEmptyCell();
+                            break;
+                        case 'easy':
+                            index = getRandomEmptyCell();
+                            break;
+                    }
+                }
             }
 
             if (index !== null) {
@@ -564,24 +606,106 @@
             }
         }
 
+        function getBestMoveFor3x3Mode() {
+            let bestScore = -Infinity;
+            let bestRemoveIndex = -1;
+            let bestNewIndex = -1;
+
+
+            if (remainingO <= 0) {
+
+                for (let i = 0; i < 9; i++) {
+                    if (gameBoard[i] === 'O') {
+
+                        const originalValue = gameBoard[i];
+                        gameBoard[i] = '';
+
+        
+                        for (let j = 0; j < 9; j++) {
+                            if (gameBoard[j] === '') {
+                                gameBoard[j] = 'O';
+                                let score = evaluatePosition();
+                                if (score > bestScore) {
+                                    bestScore = score;
+                                    bestRemoveIndex = i;
+                                    bestNewIndex = j;
+                                }
+                                gameBoard[j] = '';
+                            }
+                        }
+                        gameBoard[i] = originalValue;
+                    }
+                }
+            } else {
+
+                for (let i = 0; i < 9; i++) {
+                    if (gameBoard[i] === '') {
+                        gameBoard[i] = 'O';
+                        let score = evaluatePosition();
+                        if (score > bestScore) {
+                            bestScore = score;
+                            bestNewIndex = i;
+                        }
+                        gameBoard[i] = '';
+                    }
+                }
+            }
+
+            return {
+                removeIndex: bestRemoveIndex,
+                newIndex: bestNewIndex
+            };
+        }
+
+        function evaluatePosition() {
+
+            if (checkWinForMinimax('O')) return 100;
+            
+
+            if (checkWinForMinimax('X')) return -100;
+            
+
+            let score = 0;
+            for (let combo of winningCombinations) {
+                let oCount = 0;
+                let xCount = 0;
+                let emptyCount = 0;
+                
+                for (let index of combo) {
+                    if (gameBoard[index] === 'O') oCount++;
+                    else if (gameBoard[index] === 'X') xCount++;
+                    else emptyCount++;
+                }
+                
+                if (oCount === 2 && emptyCount === 1) score += 10;
+                if (xCount === 2 && emptyCount === 1) score -= 8;
+                if (oCount === 1 && emptyCount === 2) score += 3;
+                if (xCount === 1 && emptyCount === 2) score -= 2;
+            }
+            
+            const centerAndCorners = [0, 2, 4, 6, 8];
+            for (let pos of centerAndCorners) {
+                if (gameBoard[pos] === 'O') score += 3;
+            }
+            
+            return score;
+        }
+
         function getBestMove() {
             let bestScore = -Infinity;
             let bestMove = null;
             const availableMoves = [];
 
-            // First move optimization - take center if available
             if (gameBoard.filter(cell => cell !== '').length === 0) {
                 return 4;
             }
 
-            // Get all available moves
             for (let i = 0; i < 9; i++) {
                 if (gameBoard[i] === '') {
                     availableMoves.push(i);
                 }
             }
 
-            // Check for immediate win
             for (let move of availableMoves) {
                 gameBoard[move] = 'O';
                 if (checkWinForMinimax('O')) {
@@ -591,7 +715,6 @@
                 gameBoard[move] = '';
             }
 
-            // Check for immediate block
             for (let move of availableMoves) {
                 gameBoard[move] = 'X';
                 if (checkWinForMinimax('X')) {
@@ -601,7 +724,6 @@
                 gameBoard[move] = '';
             }
 
-            // If no immediate win/block, use minimax
             for (let move of availableMoves) {
                 gameBoard[move] = 'O';
                 let score = minimax(gameBoard, 0, false, -Infinity, Infinity);
@@ -685,12 +807,15 @@
             document.body.className = 'player-x';
             status.textContent = `Player ${currentPlayer}'s Turn`;
             isBotTurn = false;
+            remainingX = 3;
+            remainingO = 3;
             
             cells.forEach(cell => {
                 cell.innerHTML = '';
                 cell.classList.remove('filled', 'x', 'o');
             });
 
+            is3x3Mode = difficultySelect.value === '3x3';
             isAgainstBot = difficultySelect.value !== '2player';
         }
 
@@ -700,5 +825,3 @@
         });
         resetBtn.addEventListener('click', resetGame);
     </script>
-</body>
-</html>
