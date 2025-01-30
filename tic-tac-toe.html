@@ -465,7 +465,6 @@
             
             if (is3x3Mode) {
                 if (currentPlayer === 'X' && remainingX <= 0) {
-
                     const oldestXIndex = gameBoard.findIndex(cell => cell === 'X');
                     if (oldestXIndex !== -1) {
                         gameBoard[oldestXIndex] = '';
@@ -474,7 +473,6 @@
                         remainingX++;
                     }
                 } else if (currentPlayer === 'O' && remainingO <= 0) {
-
                     const oldestOIndex = gameBoard.findIndex(cell => cell === 'O');
                     if (oldestOIndex !== -1) {
                         gameBoard[oldestOIndex] = '';
@@ -574,7 +572,6 @@
             const difficulty = difficultySelect.value;
 
             if (is3x3Mode && remainingO <= 0) {
-
                 const bestMove = getBestMoveFor3x3Mode();
                 if (bestMove.removeIndex !== -1) {
                     gameBoard[bestMove.removeIndex] = '';
@@ -585,7 +582,8 @@
                 index = bestMove.newIndex;
             } else {
                 if (difficulty === '3x3') {
-                    index = getBestMoveFor3x3Mode().newIndex;
+                    const bestMove = getBestMoveFor3x3Mode();
+                    index = bestMove.newIndex;
                 } else {
                     switch(difficulty) {
                         case 'hard':
@@ -611,20 +609,47 @@
             let bestRemoveIndex = -1;
             let bestNewIndex = -1;
 
+            // First, try to win in one move
+            for (let i = 0; i < 9; i++) {
+                if (gameBoard[i] === '') {
+                    gameBoard[i] = 'O';
+                    if (checkWinForMinimax('O')) {
+                        gameBoard[i] = '';
+                        return {
+                            removeIndex: -1,
+                            newIndex: i
+                        };
+                    }
+                    gameBoard[i] = '';
+                }
+            }
+
+            // Then, block opponent's winning move
+            for (let i = 0; i < 9; i++) {
+                if (gameBoard[i] === '') {
+                    gameBoard[i] = 'X';
+                    if (checkWinForMinimax('X')) {
+                        gameBoard[i] = '';
+                        return {
+                            removeIndex: -1,
+                            newIndex: i
+                        };
+                    }
+                    gameBoard[i] = '';
+                }
+            }
 
             if (remainingO <= 0) {
-
+                // Try all possible combinations of removing and placing
                 for (let i = 0; i < 9; i++) {
                     if (gameBoard[i] === 'O') {
-
                         const originalValue = gameBoard[i];
                         gameBoard[i] = '';
-
-        
+                        
                         for (let j = 0; j < 9; j++) {
                             if (gameBoard[j] === '') {
                                 gameBoard[j] = 'O';
-                                let score = evaluatePosition();
+                                let score = evaluatePosition() + Math.random() * 0.2; // Add small random factor for unpredictability
                                 if (score > bestScore) {
                                     bestScore = score;
                                     bestRemoveIndex = i;
@@ -637,11 +662,11 @@
                     }
                 }
             } else {
-
+                // Regular move when we still have pieces to place
                 for (let i = 0; i < 9; i++) {
                     if (gameBoard[i] === '') {
                         gameBoard[i] = 'O';
-                        let score = evaluatePosition();
+                        let score = evaluatePosition() + Math.random() * 0.2;
                         if (score > bestScore) {
                             bestScore = score;
                             bestNewIndex = i;
@@ -658,14 +683,12 @@
         }
 
         function evaluatePosition() {
-
-            if (checkWinForMinimax('O')) return 100;
-            
-
-            if (checkWinForMinimax('X')) return -100;
-            
+            if (checkWinForMinimax('O')) return 1000;
+            if (checkWinForMinimax('X')) return -1000;
 
             let score = 0;
+
+            // Evaluate each winning combination
             for (let combo of winningCombinations) {
                 let oCount = 0;
                 let xCount = 0;
@@ -677,16 +700,22 @@
                     else emptyCount++;
                 }
                 
-                if (oCount === 2 && emptyCount === 1) score += 10;
-                if (xCount === 2 && emptyCount === 1) score -= 8;
-                if (oCount === 1 && emptyCount === 2) score += 3;
-                if (xCount === 1 && emptyCount === 2) score -= 2;
+                // Prioritize creating winning opportunities and blocking opponent
+                if (oCount === 2 && emptyCount === 1) score += 50;
+                if (xCount === 2 && emptyCount === 1) score -= 40;
+                if (oCount === 1 && emptyCount === 2) score += 10;
+                if (xCount === 1 && emptyCount === 2) score -= 8;
             }
             
+            // Prioritize center and corners
             const centerAndCorners = [0, 2, 4, 6, 8];
             for (let pos of centerAndCorners) {
-                if (gameBoard[pos] === 'O') score += 3;
+                if (gameBoard[pos] === 'O') score += 5;
+                if (gameBoard[pos] === 'X') score -= 3;
             }
+            
+            // Extra weight for center position
+            if (gameBoard[4] === 'O') score += 7;
             
             return score;
         }
