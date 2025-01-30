@@ -609,29 +609,14 @@
             let bestRemoveIndex = -1;
             let bestNewIndex = -1;
 
-            // First, try to win in one move
-            for (let i = 0; i < 9; i++) {
-                if (gameBoard[i] === '') {
-                    gameBoard[i] = 'O';
-                    if (checkWinForMinimax('O')) {
-                        gameBoard[i] = '';
-                        return {
-                            removeIndex: -1,
-                            newIndex: i
-                        };
-                    }
-                    gameBoard[i] = '';
-                }
-            }
-
-            // Then, block opponent's winning move
+            // First priority: Block any immediate win by the opponent
             for (let i = 0; i < 9; i++) {
                 if (gameBoard[i] === '') {
                     gameBoard[i] = 'X';
                     if (checkWinForMinimax('X')) {
                         gameBoard[i] = '';
                         return {
-                            removeIndex: -1,
+                            removeIndex: remainingO <= 0 ? gameBoard.findIndex(cell => cell === 'O') : -1,
                             newIndex: i
                         };
                     }
@@ -639,40 +624,37 @@
                 }
             }
 
-            if (remainingO <= 0) {
-                // Try all possible combinations of removing and placing
-                for (let i = 0; i < 9; i++) {
-                    if (gameBoard[i] === 'O') {
-                        const originalValue = gameBoard[i];
-                        gameBoard[i] = '';
-                        
-                        for (let j = 0; j < 9; j++) {
-                            if (gameBoard[j] === '') {
-                                gameBoard[j] = 'O';
-                                let score = evaluatePosition() + Math.random() * 0.2; // Add small random factor for unpredictability
-                                if (score > bestScore) {
-                                    bestScore = score;
-                                    bestRemoveIndex = i;
-                                    bestNewIndex = j;
-                                }
-                                gameBoard[j] = '';
-                            }
-                        }
-                        gameBoard[i] = originalValue;
-                    }
+            // Second priority: Control the center and corners
+            const strategicPositions = [4, 0, 2, 6, 8]; // Center and corners
+            for (let pos of strategicPositions) {
+                if (gameBoard[pos] === '') {
+                    return {
+                        removeIndex: remainingO <= 0 ? gameBoard.findIndex(cell => cell === 'O') : -1,
+                        newIndex: pos
+                    };
                 }
-            } else {
-                // Regular move when we still have pieces to place
-                for (let i = 0; i < 9; i++) {
-                    if (gameBoard[i] === '') {
-                        gameBoard[i] = 'O';
-                        let score = evaluatePosition() + Math.random() * 0.2;
-                        if (score > bestScore) {
-                            bestScore = score;
-                            bestNewIndex = i;
-                        }
-                        gameBoard[i] = '';
-                    }
+            }
+
+            // If no strategic position is available, find any valid move
+            for (let i = 0; i < 9; i++) {
+                if (gameBoard[i] === '') {
+                    return {
+                        removeIndex: remainingO <= 0 ? gameBoard.findIndex(cell => cell === 'O') : -1,
+                        newIndex: i
+                    };
+                }
+            }
+
+            // If we need to move an existing piece
+            if (remainingO <= 0) {
+                const currentOPositions = gameBoard.map((cell, index) => cell === 'O' ? index : -1).filter(index => index !== -1);
+                const emptyPositions = gameBoard.map((cell, index) => cell === '' ? index : -1).filter(index => index !== -1);
+                
+                if (currentOPositions.length > 0 && emptyPositions.length > 0) {
+                    return {
+                        removeIndex: currentOPositions[0],
+                        newIndex: emptyPositions[0]
+                    };
                 }
             }
 
@@ -683,39 +665,17 @@
         }
 
         function evaluatePosition() {
-            if (checkWinForMinimax('O')) return 1000;
-            if (checkWinForMinimax('X')) return -1000;
-
             let score = 0;
-
-            // Evaluate each winning combination
-            for (let combo of winningCombinations) {
-                let oCount = 0;
-                let xCount = 0;
-                let emptyCount = 0;
-                
-                for (let index of combo) {
-                    if (gameBoard[index] === 'O') oCount++;
-                    else if (gameBoard[index] === 'X') xCount++;
-                    else emptyCount++;
-                }
-                
-                // Prioritize creating winning opportunities and blocking opponent
-                if (oCount === 2 && emptyCount === 1) score += 50;
-                if (xCount === 2 && emptyCount === 1) score -= 40;
-                if (oCount === 1 && emptyCount === 2) score += 10;
-                if (xCount === 1 && emptyCount === 2) score -= 8;
+            
+            // Evaluate control of strategic positions
+            const strategicPositions = [4, 0, 2, 6, 8]; // Center and corners
+            for (let pos of strategicPositions) {
+                if (gameBoard[pos] === 'O') score += 3;
+                if (gameBoard[pos] === 'X') score -= 2;
             }
             
-            // Prioritize center and corners
-            const centerAndCorners = [0, 2, 4, 6, 8];
-            for (let pos of centerAndCorners) {
-                if (gameBoard[pos] === 'O') score += 5;
-                if (gameBoard[pos] === 'X') score -= 3;
-            }
-            
-            // Extra weight for center position
-            if (gameBoard[4] === 'O') score += 7;
+            // Extra weight for center control
+            if (gameBoard[4] === 'O') score += 5;
             
             return score;
         }
