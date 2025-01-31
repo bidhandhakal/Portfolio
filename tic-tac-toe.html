@@ -337,6 +337,47 @@
             margin: clamp(0.3rem, 1vw, 0.5rem) 0;
         }
 
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .krishna-image {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 80%;
+            max-height: 80vh;
+            z-index: 1001;
+            border-radius: 10px;
+            filter: blur(0);
+            transition: all 0.3s ease;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+        }
+
         @keyframes popIn {
             from {
                 opacity: 0;
@@ -387,6 +428,8 @@
         <p>Click to restart now</p>
         <i class="fa-solid fa-rotate"></i>
     </div>
+    <div class="overlay"></div>
+    <img src="https://scontent.fbwa8-1.fna.fbcdn.net/v/t39.30808-6/473802267_1170568624500671_6553151272177648045_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=9Unfw6-DkjIQ7kNvgFtGyVO&_nc_zt=23&_nc_ht=scontent.fbwa8-1.fna&_nc_gid=A_zu3yh_98w48WaP7NpCP8R&oh=00_AYAkO1pjsX8iBzfJvDziSTLEYOmhwWMS6_NSHBbYBYBOmg&oe=67A2A99F" alt="Krishna" class="krishna-image">
     <a href="index.html" class="Name" title="Back to Portfolio"><i class="fa-solid fa-code"></i> Bidhan.</a>
     <div class="container">
         <div class="status">Player X's Turn</div>
@@ -412,12 +455,34 @@
             <div class="cell" data-index="8"></div>
         </div>
     </div>
+    <div class="footer">
+        The Game tester and bug reporter: Krishna Budhathoki ❤️
+    </div>
 
     <script>
         window.addEventListener('load', () => {
             setTimeout(() => {
-                document.querySelector('.loader').classList.add('fade-out');
+                const loader = document.querySelector('.loader');
+                loader.classList.add('fade-out');
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 1000); // Hide after fade animation completes
             }, 2000);
+        });
+
+        // Add click event for Krishna's name
+        const footer = document.querySelector('.footer');
+        const krishnaImage = document.querySelector('.krishna-image');
+        const overlay = document.querySelector('.overlay');
+
+        footer.addEventListener('click', () => {
+            krishnaImage.style.display = 'block';
+            overlay.style.display = 'block';
+        });
+
+        overlay.addEventListener('click', () => {
+            krishnaImage.style.display = 'none';
+            overlay.style.display = 'none';
         });
 
         const cells = document.querySelectorAll('.cell');
@@ -456,12 +521,12 @@
         ];
 
         function handleCellClick(e) {
-            if (isBotTurn) return;
+            if (isBotTurn || !gameActive) return;
             
             const cell = e.target;
             const index = parseInt(cell.getAttribute('data-index'));
 
-            if (gameBoard[index] !== '' || !gameActive) return;
+            if (gameBoard[index] !== '') return;
             
             if (is3x3Mode) {
                 if (currentPlayer === 'X' && remainingX <= 0) {
@@ -488,8 +553,12 @@
             if (gameActive && isAgainstBot && difficultySelect.value !== '2player') {
                 isBotTurn = true; 
                 setTimeout(() => {
-                    makeBotMove();
-                    isBotTurn = false; 
+                    const botMoveResult = makeBotMove();
+                    if (botMoveResult === null) {
+                        // If bot can't make a move, reset the game
+                        showGameEndPopup("Game Draw!");
+                    }
+                    isBotTurn = false;
                 }, 500);
             }
         }
@@ -532,6 +601,7 @@
             const cell = cells[index];
             const img = document.createElement('img');
             img.src = currentPlayer === 'X' ? xImageUrl : oImageUrl;
+            cell.innerHTML = ''; // Clear existing content
             cell.appendChild(img);
             cell.classList.add('filled');
             cell.classList.add(currentPlayer.toLowerCase());
@@ -566,13 +636,15 @@
         }
 
         function makeBotMove() {
-            if (!gameActive) return;
+            if (!gameActive) return null;
 
             let index;
             const difficulty = difficultySelect.value;
 
             if (is3x3Mode && remainingO <= 0) {
                 const bestMove = getBestMoveFor3x3Mode();
+                if (bestMove === null) return null; // Return null if no valid move is found
+                
                 if (bestMove.removeIndex !== -1) {
                     gameBoard[bestMove.removeIndex] = '';
                     cells[bestMove.removeIndex].innerHTML = '';
@@ -582,8 +654,16 @@
                 index = bestMove.newIndex;
             } else {
                 if (difficulty === '3x3') {
-                    const bestMove = getBestMoveFor3x3Mode();
+                    const bestMove = getImpossibleMove();
+                    if (bestMove === null) return null; // Return null if no valid move is found
+                    
                     index = bestMove.newIndex;
+                    if (bestMove.removeIndex !== -1) {
+                        gameBoard[bestMove.removeIndex] = '';
+                        cells[bestMove.removeIndex].innerHTML = '';
+                        cells[bestMove.removeIndex].classList.remove('filled', 'o');
+                        remainingO++;
+                    }
                 } else {
                     switch(difficulty) {
                         case 'hard':
@@ -595,21 +675,36 @@
                         case 'easy':
                             index = getRandomEmptyCell();
                             break;
+                        default:
+                            index = getRandomEmptyCell();
                     }
                 }
             }
 
-            if (index !== null) {
+            if (index !== null && index !== undefined) {
                 makeMove(index);
+                return true;
             }
+            return null;
         }
 
-        function getBestMoveFor3x3Mode() {
-            let bestScore = -Infinity;
-            let bestRemoveIndex = -1;
-            let bestNewIndex = -1;
+        function getImpossibleMove() {
+            // First priority: Win if possible
+            for (let i = 0; i < 9; i++) {
+                if (gameBoard[i] === '') {
+                    gameBoard[i] = 'O';
+                    if (checkWinForMinimax('O')) {
+                        gameBoard[i] = '';
+                        return {
+                            removeIndex: remainingO <= 0 ? gameBoard.findIndex(cell => cell === 'O') : -1,
+                            newIndex: i
+                        };
+                    }
+                    gameBoard[i] = '';
+                }
+            }
 
-            // First priority: Block any immediate win by the opponent
+            // Second priority: Block immediate win
             for (let i = 0; i < 9; i++) {
                 if (gameBoard[i] === '') {
                     gameBoard[i] = 'X';
@@ -624,8 +719,42 @@
                 }
             }
 
-            // Second priority: Control the center and corners
-            const strategicPositions = [4, 0, 2, 6, 8]; // Center and corners
+            // Third priority: Create double win threat
+            for (let i = 0; i < 9; i++) {
+                if (gameBoard[i] === '') {
+                    gameBoard[i] = 'O';
+                    let winningPaths = 0;
+                    for (let combo of winningCombinations) {
+                        let oCount = 0;
+                        let emptyCount = 0;
+                        for (let pos of combo) {
+                            if (gameBoard[pos] === 'O') oCount++;
+                            if (gameBoard[pos] === '') emptyCount++;
+                        }
+                        if (oCount === 2 && emptyCount === 1) winningPaths++;
+                    }
+                    if (winningPaths >= 2) {
+                        gameBoard[i] = '';
+                        return {
+                            removeIndex: remainingO <= 0 ? gameBoard.findIndex(cell => cell === 'O') : -1,
+                            newIndex: i
+                        };
+                    }
+                    gameBoard[i] = '';
+                }
+            }
+
+            // Fourth priority: Block opponent's fork
+            const opponentForks = findForkOpportunities('X');
+            if (opponentForks.length > 0) {
+                return {
+                    removeIndex: remainingO <= 0 ? gameBoard.findIndex(cell => cell === 'O') : -1,
+                    newIndex: opponentForks[0]
+                };
+            }
+
+            // Fifth priority: Control center and corners
+            const strategicPositions = [4, 0, 2, 6, 8, 1, 3, 5, 7];
             for (let pos of strategicPositions) {
                 if (gameBoard[pos] === '') {
                     return {
@@ -635,33 +764,52 @@
                 }
             }
 
-            // If no strategic position is available, find any valid move
-            for (let i = 0; i < 9; i++) {
-                if (gameBoard[i] === '') {
-                    return {
-                        removeIndex: remainingO <= 0 ? gameBoard.findIndex(cell => cell === 'O') : -1,
-                        newIndex: i
-                    };
-                }
-            }
-
-            // If we need to move an existing piece
+            // If we need to move an existing piece, optimize position
             if (remainingO <= 0) {
                 const currentOPositions = gameBoard.map((cell, index) => cell === 'O' ? index : -1).filter(index => index !== -1);
-                const emptyPositions = gameBoard.map((cell, index) => cell === '' ? index : -1).filter(index => index !== -1);
-                
-                if (currentOPositions.length > 0 && emptyPositions.length > 0) {
-                    return {
-                        removeIndex: currentOPositions[0],
-                        newIndex: emptyPositions[0]
-                    };
+                for (let pos of strategicPositions) {
+                    if (gameBoard[pos] === '') {
+                        return {
+                            removeIndex: currentOPositions[0],
+                            newIndex: pos
+                        };
+                    }
                 }
             }
 
-            return {
-                removeIndex: bestRemoveIndex,
-                newIndex: bestNewIndex
-            };
+            // If no valid move is found, return null
+            return null;
+        }
+
+        function findForkOpportunities(player) {
+            const opportunities = [];
+            for (let i = 0; i < 9; i++) {
+                if (gameBoard[i] === '') {
+                    let winningPaths = 0;
+                    gameBoard[i] = player;
+                    
+                    // Check each winning combination
+                    for (let combo of winningCombinations) {
+                        let playerCount = 0;
+                        let emptyCount = 0;
+                        
+                        for (let pos of combo) {
+                            if (gameBoard[pos] === player) playerCount++;
+                            if (gameBoard[pos] === '') emptyCount++;
+                        }
+                        
+                        if (playerCount === 2 && emptyCount === 1) {
+                            winningPaths++;
+                        }
+                    }
+                    
+                    gameBoard[i] = '';
+                    if (winningPaths >= 2) {
+                        opportunities.push(i);
+                    }
+                }
+            }
+            return opportunities;
         }
 
         function evaluatePosition() {
@@ -685,16 +833,19 @@
             let bestMove = null;
             const availableMoves = [];
 
+            // Take center first if available
             if (gameBoard.filter(cell => cell !== '').length === 0) {
                 return 4;
             }
 
+            // Get all available moves
             for (let i = 0; i < 9; i++) {
                 if (gameBoard[i] === '') {
                     availableMoves.push(i);
                 }
             }
 
+            // Check for immediate win
             for (let move of availableMoves) {
                 gameBoard[move] = 'O';
                 if (checkWinForMinimax('O')) {
@@ -704,6 +855,7 @@
                 gameBoard[move] = '';
             }
 
+            // Check for blocking opponent's win
             for (let move of availableMoves) {
                 gameBoard[move] = 'X';
                 if (checkWinForMinimax('X')) {
@@ -713,6 +865,7 @@
                 gameBoard[move] = '';
             }
 
+            // Use minimax for best strategic move
             for (let move of availableMoves) {
                 gameBoard[move] = 'O';
                 let score = minimax(gameBoard, 0, false, -Infinity, Infinity);
@@ -723,7 +876,7 @@
                 }
             }
 
-            return bestMove;
+            return bestMove !== null ? bestMove : availableMoves[0];
         }
 
         function minimax(board, depth, isMaximizing, alpha, beta) {
@@ -772,8 +925,7 @@
                 return acc;
             }, []);
             
-            if (emptyCells.length === 0) return null;
-            return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            return emptyCells.length > 0 ? emptyCells[Math.floor(Math.random() * emptyCells.length)] : null;
         }
 
         function checkWin() {
