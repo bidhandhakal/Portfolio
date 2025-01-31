@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,9 +46,12 @@
         }
 
         @keyframes float {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(-20px);
             }
@@ -80,11 +84,13 @@
                 border-color: #ff1a1a;
                 box-shadow: 0 0 20px rgba(255, 26, 26, 0.5);
             }
+
             50% {
                 transform: scale(1.3);
                 border-color: #1a1aff;
                 box-shadow: 0 0 30px rgba(26, 26, 255, 0.5);
             }
+
             100% {
                 transform: scale(1);
                 border-color: #ff1a1a;
@@ -101,11 +107,14 @@
         }
 
         @keyframes glow {
-            0%, 100% { 
+
+            0%,
+            100% {
                 opacity: 1;
                 text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
             }
-            50% { 
+
+            50% {
                 opacity: 0.5;
                 text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
             }
@@ -120,13 +129,13 @@
             text-decoration: none;
             z-index: 1000;
             font-weight: bold;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.5rem 1rem;
-            background: rgba(0,0,0,0.1);
+            background: rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(5px);
             border-radius: 50px;
         }
@@ -146,7 +155,7 @@
         }
 
         body.player-o {
-            background:  #1a1aff;
+            background: #1a1aff;
         }
 
         .container {
@@ -166,6 +175,7 @@
                 opacity: 0;
                 transform: translateY(10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -201,16 +211,20 @@
                 transform: rotateY(0) translateZ(0) scale(1);
                 opacity: 1;
             }
+
             25% {
                 transform: rotateY(90deg) translateZ(50px) scale(1.2);
             }
+
             50% {
                 transform: rotateY(180deg) translateZ(100px) scale(0.8);
                 opacity: 0.5;
             }
+
             75% {
                 transform: rotateY(270deg) translateZ(50px) scale(1.2);
             }
+
             100% {
                 transform: rotateY(360deg) translateZ(0) scale(1);
                 opacity: 1;
@@ -278,7 +292,8 @@
             flex-wrap: wrap;
         }
 
-        .reset-btn, .difficulty-select {
+        .reset-btn,
+        .difficulty-select {
             padding: 12px 24px;
             font-size: 1.3rem;
             background: rgba(151, 150, 150, 0.2);
@@ -291,7 +306,8 @@
             border: 3px solid rgba(201, 88, 88, 0.338);
         }
 
-        .reset-btn:hover, .difficulty-select:hover {
+        .reset-btn:hover,
+        .difficulty-select:hover {
             background: rgba(255, 255, 255, 0.3);
         }
 
@@ -383,6 +399,7 @@
                 opacity: 0;
                 transform: translate(-50%, -60%);
             }
+
             to {
                 opacity: 1;
                 transform: translate(-50%, -50%);
@@ -393,7 +410,7 @@
             .container {
                 padding: 1rem;
             }
-            
+
             .board {
                 padding: 12px;
                 gap: 8px;
@@ -405,6 +422,7 @@
         }
     </style>
 </head>
+
 <body class="player-x">
     <div class="loader">
         <div class="loader-content">
@@ -429,7 +447,8 @@
         <i class="fa-solid fa-rotate"></i>
     </div>
     <div class="overlay"></div>
-    <img src="https://scontent.fbwa8-1.fna.fbcdn.net/v/t39.30808-6/473802267_1170568624500671_6553151272177648045_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=9Unfw6-DkjIQ7kNvgFtGyVO&_nc_zt=23&_nc_ht=scontent.fbwa8-1.fna&_nc_gid=A_zu3yh_98w48WaP7NpCP8R&oh=00_AYAkO1pjsX8iBzfJvDziSTLEYOmhwWMS6_NSHBbYBYBOmg&oe=67A2A99F" alt="Krishna" class="krishna-image">
+    <img src="https://scontent.fbwa8-1.fna.fbcdn.net/v/t39.30808-6/473802267_1170568624500671_6553151272177648045_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=9Unfw6-DkjIQ7kNvgFtGyVO&_nc_zt=23&_nc_ht=scontent.fbwa8-1.fna&_nc_gid=A_zu3yh_98w48WaP7NpCP8R&oh=00_AYAkO1pjsX8iBzfJvDziSTLEYOmhwWMS6_NSHBbYBYBOmg&oe=67A2A99F"
+        alt="Krishna" class="krishna-image">
     <a href="index.html" class="Name" title="Back to Portfolio"><i class="fa-solid fa-code"></i> Bidhan.</a>
     <div class="container">
         <div class="status">Player X's Turn</div>
@@ -504,12 +523,12 @@
 
         const xImage = new Image();
         xImage.src = 'cross.png';
-        const oImage = new Image(); 
+        const oImage = new Image();
         oImage.src = 'circle.svg';
         const xImageUrl = xImage.src;
         const oImageUrl = oImage.src;
 
-        const crossSound = new Audio('cross.mp3'); 
+        const crossSound = new Audio('cross.mp3');
         const circleSound = new Audio('circle.mp3');
         const drawSound = new Audio('draw.mp3');
         const wonSound = new Audio('won.mp3');
@@ -522,12 +541,12 @@
 
         function handleCellClick(e) {
             if (isBotTurn || !gameActive) return;
-            
+
             const cell = e.target;
             const index = parseInt(cell.getAttribute('data-index'));
 
             if (gameBoard[index] !== '') return;
-            
+
             if (is3x3Mode) {
                 if (currentPlayer === 'X' && remainingX <= 0) {
                     const oldestXIndex = gameBoard.findIndex(cell => cell === 'X');
@@ -551,7 +570,7 @@
             makeMove(index);
 
             if (gameActive && isAgainstBot && difficultySelect.value !== '2player') {
-                isBotTurn = true; 
+                isBotTurn = true;
                 setTimeout(() => {
                     const botMoveResult = makeBotMove();
                     if (botMoveResult === null) {
@@ -571,18 +590,18 @@
                 }, 1000);
                 return;
             }
-            
+
             wonSound.play();
             popupTitle.textContent = message;
             popup.classList.add('show');
-            
+
             let countdown = 5;
             countdownEl.textContent = countdown;
-            
+
             countdownInterval = setInterval(() => {
                 countdown--;
                 countdownEl.textContent = countdown;
-                
+
                 if (countdown <= 0) {
                     clearInterval(countdownInterval);
                     popup.classList.remove('show');
@@ -615,7 +634,7 @@
             }
 
             gameBoard[index] = currentPlayer;
-            
+
             if (checkWin()) {
                 status.textContent = `Player ${currentPlayer} Wins!`;
                 gameActive = false;
@@ -644,7 +663,7 @@
             if (is3x3Mode && remainingO <= 0) {
                 const bestMove = getBestMoveFor3x3Mode();
                 if (bestMove === null) return null; // Return null if no valid move is found
-                
+
                 if (bestMove.removeIndex !== -1) {
                     gameBoard[bestMove.removeIndex] = '';
                     cells[bestMove.removeIndex].innerHTML = '';
@@ -656,7 +675,7 @@
                 if (difficulty === '3x3') {
                     const bestMove = getImpossibleMove();
                     if (bestMove === null) return null; // Return null if no valid move is found
-                    
+
                     index = bestMove.newIndex;
                     if (bestMove.removeIndex !== -1) {
                         gameBoard[bestMove.removeIndex] = '';
@@ -665,7 +684,7 @@
                         remainingO++;
                     }
                 } else {
-                    switch(difficulty) {
+                    switch (difficulty) {
                         case 'hard':
                             index = getBestMove();
                             break;
@@ -787,22 +806,22 @@
                 if (gameBoard[i] === '') {
                     let winningPaths = 0;
                     gameBoard[i] = player;
-                    
+
                     // Check each winning combination
                     for (let combo of winningCombinations) {
                         let playerCount = 0;
                         let emptyCount = 0;
-                        
+
                         for (let pos of combo) {
                             if (gameBoard[pos] === player) playerCount++;
                             if (gameBoard[pos] === '') emptyCount++;
                         }
-                        
+
                         if (playerCount === 2 && emptyCount === 1) {
                             winningPaths++;
                         }
                     }
-                    
+
                     gameBoard[i] = '';
                     if (winningPaths >= 2) {
                         opportunities.push(i);
@@ -814,17 +833,17 @@
 
         function evaluatePosition() {
             let score = 0;
-            
+
             // Evaluate control of strategic positions
             const strategicPositions = [4, 0, 2, 6, 8]; // Center and corners
             for (let pos of strategicPositions) {
                 if (gameBoard[pos] === 'O') score += 3;
                 if (gameBoard[pos] === 'X') score -= 2;
             }
-            
+
             // Extra weight for center control
             if (gameBoard[4] === 'O') score += 5;
-            
+
             return score;
         }
 
@@ -924,7 +943,7 @@
                 if (cell === '') acc.push(index);
                 return acc;
             }, []);
-            
+
             return emptyCells.length > 0 ? emptyCells[Math.floor(Math.random() * emptyCells.length)] : null;
         }
 
@@ -950,7 +969,7 @@
             isBotTurn = false;
             remainingX = 3;
             remainingO = 3;
-            
+
             cells.forEach(cell => {
                 cell.innerHTML = '';
                 cell.classList.remove('filled', 'x', 'o');

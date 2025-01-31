@@ -1,4 +1,25 @@
-  const cursor = document.createElement('div');
+window.addEventListener('load', () => {
+    const dots = document.querySelector('.dots');
+    let count = 0;
+    setInterval(() => {
+        count = (count + 1) % 4;
+        dots.textContent = '.'.repeat(count);
+    }, 500);
+
+    setTimeout(() => {
+        const loader = document.getElementById('loading');
+        gsap.to(loader, {
+            opacity: 0,
+            duration: 0.5,
+            onComplete: () => {
+                loader.style.display = 'none';
+            }
+        });
+    }, 2000);
+}); 
+ 
+ 
+ const cursor = document.createElement('div');
   cursor.classList.add('custom-cursor');
   document.body.appendChild(cursor);
 

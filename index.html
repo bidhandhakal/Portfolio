@@ -21,6 +21,23 @@
 </head>
 
 <body class="relative">
+    <div id="loading" class="fixed inset-0 z-50 flex items-center justify-center bg-[var(--darker)]">
+        <div class="flex flex-col items-center">
+            <div class="relative w-24 h-24">
+                <div
+                    class="absolute w-full h-full border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin">
+                </div>
+                <div class="absolute w-full h-full border-4 border-[var(--accent)] border-t-transparent rounded-full animate-spin"
+                    style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <i class="fas fa-code text-[var(--primary)] text-2xl animate-pulse"></i>
+                </div>
+            </div>
+            <p class="mt-6 text-[var(--primary)] text-xl font-mono animate-pulse">Loading<span class="dots">...</span>
+            </p>
+        </div>
+    </div>
+
     <div id="canvas-container"></div>
 
     <header class="fixed w-full top-0 z-50 glass">
@@ -54,9 +71,12 @@
                 <li><a href="#contact" class="nav-link hover:text-[var(--primary)]">.contact()</a></li>
             </ul>
             <div class="social-icons">
-                <a href="https://github.com/BidhanDhakal" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/bidhan-dhakal-487347337/" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
-                <a href="https://www.facebook.com/profile.php?id=61556013907076" target="_blank" class="social-icon" ><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://github.com/BidhanDhakal" target="_blank" class="social-icon"><i
+                        class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/bidhan-dhakal-487347337/" target="_blank" class="social-icon"><i
+                        class="fab fa-linkedin"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61556013907076" target="_blank" class="social-icon"><i
+                        class="fa-brands fa-facebook"></i></a>
             </div>
         </div>
     </header>
@@ -96,7 +116,8 @@
 
         <section id="projects" class="min-h-screen flex items-center justify-center">
             <div class="max-w-6xl mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-12 text-center" data-aos="fade-up">.projects()
+                <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-12 text-center" data-aos="fade-up">
+                    .projects()
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="100">
@@ -126,7 +147,8 @@
                     <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="200">
                         <img src="tic-tac-toe-svgrepo-com.svg" alt="URL Tools Project" class="w-[170px] mx-auto mb-4">
                         <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Tic-Tac-Toe</h3>
-                        <p class="text-[var(--lighter)] mb-4">A simple and fun game of Tic-Tac-Toe that you can play with your friends.</p>
+                        <p class="text-[var(--lighter)] mb-4">A simple and fun game of Tic-Tac-Toe that you can play
+                            with your friends.</p>
                         <button onclick="window.open('tic-tac-toe.html', '_blank')" class="btn w-full">View <i
                                 class="fa-solid fa-arrow-up-right-from-square ml-2"></i></button>
                     </div>
@@ -144,16 +166,20 @@
         </section>
 
 
-        
+
         <section id="contact" class="min-h-screen flex items-center justify-center py-16">
             <div class="max-w-4xl mx-auto px-6 text-center">
                 <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-8" data-aos="fade-up">.contact()</h2>
-                <p class="text-[var(--lighter)] text-lg mb-10 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
-                    I'm passionate about creating innovative web solutions and currently seeking opportunities to contribute my expertise. Whether you have a project in mind or just want to connect, I'd love to hear from you!
+                <p class="text-[var(--lighter)] text-lg mb-10 max-w-2xl mx-auto" data-aos="fade-up"
+                    data-aos-delay="100">
+                    I'm passionate about creating innovative web solutions and currently seeking opportunities to
+                    contribute my expertise. Whether you have a project in mind or just want to connect, I'd love to
+                    hear from you!
                 </p>
 
                 <div class="grid md:grid-cols-2 gap-8 mb-12">
-                    <div class="contact-info p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-right" data-aos-delay="200">
+                    <div class="contact-info p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-right"
+                        data-aos-delay="200">
                         <h3 class="text-xl font-bold text-[var(--primary)] mb-6">Contact Details</h3>
                         <div class="space-y-4">
                             <p class="flex items-center justify-center gap-3">
@@ -171,7 +197,8 @@
                         </div>
                     </div>
 
-                    <div class="availability p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-left" data-aos-delay="300">
+                    <div class="availability p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-left"
+                        data-aos-delay="300">
                         <h3 class="text-xl font-bold text-[var(--primary)] mb-6">Current Status</h3>
                         <div class="space-y-4">
                             <p class="flex items-center justify-center gap-3">
@@ -190,8 +217,10 @@
                     </div>
                 </div>
 
-                <div class="cta-buttons flex flex-col md:flex-row items-center justify-center gap-6 mb-12" data-aos="fade-up" data-aos-delay="400">
-                    <a href="resumebidhan.pdf" class="btn hover:scale-105 transition-transform flex items-center gap-2" target="_blank">
+                <div class="cta-buttons flex flex-col md:flex-row items-center justify-center gap-6 mb-12"
+                    data-aos="fade-up" data-aos-delay="400">
+                    <a href="resumebidhan.pdf" class="btn hover:scale-105 transition-transform flex items-center gap-2"
+                        target="_blank">
                         <i class="far fa-file-pdf"></i>View Resume
                     </a>
                 </div>
@@ -200,15 +229,20 @@
                     <h3 class="text-xl font-bold text-[var(--primary)] mb-6">Connect With Me</h3>
                     <div class="flex justify-center space-x-8">
                         <a href="https://github.com/BidhanDhakal" target="_blank" rel="noopener noreferrer"
-                            class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-110" title="GitHub">
+                            class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-110"
+                            title="GitHub">
                             <i class="fab fa-github text-3xl"></i>
                         </a>
-                        <a href="https://www.linkedin.com/in/bidhan-dhakal-487347337/" target="_blank" rel="noopener noreferrer"
-                            class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-110" title="LinkedIn">
+                        <a href="https://www.linkedin.com/in/bidhan-dhakal-487347337/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-110"
+                            title="LinkedIn">
                             <i class="fab fa-linkedin text-3xl"></i>
                         </a>
-                        <a href="https://www.facebook.com/profile.php?id=61556013907076" target="_blank" rel="noopener noreferrer"
-                            class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-110" title="Facebook">
+                        <a href="https://www.facebook.com/profile.php?id=61556013907076" target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-110"
+                            title="Facebook">
                             <i class="fa-brands fa-facebook text-3xl"></i>
                         </a>
                     </div>
