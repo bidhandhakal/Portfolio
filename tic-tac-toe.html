@@ -418,14 +418,20 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.5);
             color: white;
-            padding: 1rem;
+            padding: 0.5rem;
             text-align: center;
             font-family: Arial, sans-serif;
-            font-size: 1.5rem;
+            font-size: 0.8rem;
             font-weight: bold;
             cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .footer:hover {
+            opacity: 1;
         }
 
         .footer a {
@@ -536,8 +542,7 @@
         </div>
     </div>
     <div class="footer">
-        <a href="https://www.facebook.com/krishna.bc.17" target="_blank">The Game tester and bug reporter: Krishna Budhathoki ❤️</a>
-        <p style="font-size: 0.7em;"><a href="https://www.facebook.com/krishna.bc.17" target="_blank">Click here to visit Krishna's Facebook profile</a></p>
+        <a href="https://www.facebook.com/krishna.bc.17" target="_blank">Game tester: Krishna Budhathoki ❤️</a>
     </div>
     <script>
         window.addEventListener('load', () => {
@@ -722,7 +727,6 @@
             const difficulty = difficultySelect.value;
 
             if (is3x3Mode && remainingO <= 0) {
-                // Remove the oldest O move
                 const oldestOIndex = moveHistory.find(move => gameBoard[move] === 'O');
                 if (oldestOIndex !== undefined) {
                     gameBoard[oldestOIndex] = '';
@@ -735,6 +739,21 @@
 
             if (difficulty === '3x3') {
                 index = getImpossibleMove();
+                isAgainstBot = true;
+                if (index === null || index === undefined) {
+                    // If no valid move found, try to move an existing O piece
+                    if (remainingO <= 0) {
+                        const oldestOIndex = moveHistory.find(move => gameBoard[move] === 'O');
+                        if (oldestOIndex !== undefined) {
+                            gameBoard[oldestOIndex] = '';
+                            cells[oldestOIndex].innerHTML = '';
+                            cells[oldestOIndex].classList.remove('filled', 'o');
+                            remainingO++;
+                            moveHistory = moveHistory.filter(move => move !== oldestOIndex);
+                            index = getImpossibleMove();
+                        }
+                    }
+                }
             } else {
                 switch (difficulty) {
                     case 'hard':
