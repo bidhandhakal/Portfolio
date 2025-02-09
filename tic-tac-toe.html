@@ -589,16 +589,16 @@
         let moveHistory = []; // Track move history for 3x3 mode
 
         const xImage = new Image();
-        xImage.src = 'cross.png';
+        xImage.src = 'images/cross.png';
         const oImage = new Image();
-        oImage.src = 'circle.svg';
+        oImage.src = 'images/circle.svg';
         const xImageUrl = xImage.src;
         const oImageUrl = oImage.src;
 
-        const crossSound = new Audio('cross.mp3');
-        const circleSound = new Audio('circle.mp3');
-        const drawSound = new Audio('draw.mp3');
-        const wonSound = new Audio('won.mp3');
+        const crossSound = new Audio('images/cross.mp3');
+        const circleSound = new Audio('images/circle.mp3');
+        const drawSound = new Audio('images/draw.mp3');
+        const wonSound = new Audio('images/won.mp3');
 
         const winningCombinations = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8],

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bidhan | Developer</title>
-    <link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/583231?v=4">
+    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/1157/1157109.png">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,33 +14,37 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MHLT5JNHXJ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-MHLT5JNHXJ');
-    </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MHLT5JNHXJ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-MHLT5JNHXJ');
+</script>
 
 
 <body class="relative">
-    <div id="loading" class="fixed inset-0 z-50 flex items-center justify-center bg-[var(--darker)]">
-        <div class="flex flex-col items-center">
-            <div class="relative w-24 h-24">
-                <div
-                    class="absolute w-full h-full border-4 border-[var(--primary)] border-t-transparent rounded-full animate-spin">
-                </div>
-                <div class="absolute w-full h-full border-4 border-[var(--accent)] border-t-transparent rounded-full animate-spin"
-                    style="animation-direction: reverse; animation-duration: 1.5s;"></div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <i class="fas fa-code text-[var(--primary)] text-2xl animate-pulse"></i>
-                </div>
-            </div>
-            <p class="mt-6 text-[var(--primary)] text-xl font-mono animate-pulse">Loading<span class="dots">...</span>
-            </p>
+    <div id="loading" class="fixed inset-0 bg-[var(--darker)] z-50 flex items-center justify-center">
+        <div class="loader">
+            <svg viewBox="0 0 80 80">
+                <circle r="32" cy="40" cx="40" id="test"></circle>
+            </svg>
         </div>
+
+        <div class="loader triangle">
+            <svg viewBox="0 0 86 80">
+                <polygon points="43 8 79 72 7 72"></polygon>
+            </svg>
+        </div>
+
+        <div class="loader">
+            <svg viewBox="0 0 80 80">
+                <rect height="64" width="64" y="8" x="8"></rect>
+            </svg>
+        </div>
+
+    </div>
     </div>
 
     <div id="canvas-container"></div>
@@ -61,6 +65,7 @@
                 <li><a href="#home" class="nav-link hover:text-[var(--primary)]">.home()</a></li>
                 <li><a href="#about" class="nav-link hover:text-[var(--primary)]">.about()</a></li>
                 <li><a href="#projects" class="nav-link hover:text-[var(--primary)]">.projects()</a></li>
+                <li><a href="#work" class="nav-link hover:text-[var(--primary)]">.work()</a></li>
                 <li><a href="#contact" class="nav-link hover:text-[var(--primary)]">.contact()</a></li>
             </ul>
         </nav>
@@ -73,6 +78,7 @@
                 <li><a href="#home" class="nav-link hover:text-[var(--primary)]">.home()</a></li>
                 <li><a href="#about" class="nav-link hover:text-[var(--primary)]">.about()</a></li>
                 <li><a href="#projects" class="nav-link hover:text-[var(--primary)]">.projects()</a></li>
+                <li><a href="#work" class="nav-link hover:text-[var(--primary)]">.work()</a></li>
                 <li><a href="#contact" class="nav-link hover:text-[var(--primary)]">.contact()</a></li>
             </ul>
             <div class="social-icons">
@@ -86,7 +92,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="bg-[url('images/cubes.svg')] bg-fixed">
         <section id="home" class="min-h-screen flex items-center justify-center pt-20">
             <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">
                 <h1 class="text-4xl md:text-6xl font-bold gradient-text mb-6">Hello, I'm Bidhan</h1>
@@ -104,16 +110,48 @@
                         modern, responsive web applications. I love working with cutting-edge technologies and crafting
                         seamless user experiences.</p>
                     <div class="grid grid-cols-2 gap-6 text-[var(--primary)] mono text-lg">
-                        <div class="hover:scale-105 transition-transform">▹ Html</div>
-                        <div class="hover:scale-105 transition-transform">▹ Css</div>
-                        <div class="hover:scale-105 transition-transform">▹ JavaScript</div>
-                        <div class="hover:scale-105 transition-transform">▹ Three.js</div>
-                        <div class="hover:scale-105 transition-transform">▹ Tailwind</div>
+                        <div class="hover:scale-105 transition-transform flex items-center gap-2 group">
+                            <span>▹ Html</span>
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+                                class="w-0 h-0 group-hover:w-6 group-hover:h-6 transition-all" alt="HTML5 logo" />
+                        </div>
+                        <div class="hover:scale-105 transition-transform flex items-center gap-2 group">
+                            <span>▹ Css</span>
+                            <img src="https://imgs.search.brave.com/mglfu_675N11DBczte8uXHVrAVagq0a0CAXTFbHbdwA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YTIuZGV2LnRvL2R5/bmFtaWMvaW1hZ2Uv/d2lkdGg9ODAwLGhl/aWdodD0sZml0PXNj/YWxlLWRvd24sZ3Jh/dml0eT1hdXRvLGZv/cm1hdD1hdXRvL2h0/dHBzOi8vZGV2LXRv/LXVwbG9hZHMuczMu/YW1hem9uYXdzLmNv/bS91cGxvYWRzL2Fy/dGljbGVzLzdqMzUz/djh4ZTFoODYxdWM1/aTUzLnBuZw"
+                                class="w-0 h-0 group-hover:w-6 group-hover:h-6 transition-all" alt="CSS3 logo" />
+                        </div>
+                        <div class="hover:scale-105 transition-transform flex items-center gap-2 group">
+                            <span>▹ JavaScript</span>
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                                class="w-0 h-0 group-hover:w-6 group-hover:h-6 transition-all" alt="JavaScript logo" />
+                        </div>
+                        <div class="hover:scale-105 transition-transform flex items-center gap-2 group">
+                            <span>▹ Three.js</span>
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/threejs/threejs-original.svg"
+                                class="w-0 h-0 group-hover:w-6 group-hover:h-6 transition-all" alt="Three.js logo" />
+                        </div>
+                        <div class="hover:scale-105 transition-transform flex items-center gap-2 group">
+                            <span>▹ Tailwind</span>
+                            <img src="https://imgs.search.brave.com/oG3o98QjKAbPSLZPTOvPhupljLwbNmIQ42GfRq2TFXw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9k/L2Q1L1RhaWx3aW5k/X0NTU19Mb2dvLnN2/Zw"
+                                class="w-0 h-0 group-hover:w-6 group-hover:h-6 transition-all" alt="Tailwind logo" />
+                        </div>
                     </div>
                 </div>
                 <div class="relative flex justify-center items-center" data-aos="fade-left">
-                    <img src="photo.png" alt="Profile Photo"
-                        class="profile-image hover:scale-110 transition-transform duration-300 cursor-pointer hover:shadow-lg hover:shadow-[var(--primary)]/20">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <img src="images/photo2.webp" alt="Profile Photo Front" class="profile-image">
+                            </div>
+                            <div class="flip-card-back relative group">
+                                <img src="images/photo.webp" alt="Profile Photo Back" class="profile-image">
+                                <span class="absolute -right-48 top-1/2 -translate-y-1/2 text-2xl font-bold text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity">
+                                    Bidhan Dhakal
+                                </span>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -125,7 +163,7 @@
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="100">
-                        <img src="color picker.svg" alt="Color Picker Project" class="w-[170px] mx-auto mb-4">
+                        <img src="images/color picker.svg" alt="Color Picker Project" class="w-[170px] mx-auto mb-4">
                         <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Colour Picker</h3>
                         <p class="text-[var(--lighter)] mb-4">A versatile color picker tool with various color formats
                             and palettes.</p>
@@ -133,7 +171,7 @@
                                 class="fa-solid fa-arrow-up-right-from-square ml-2"></i></button>
                     </div>
                     <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="200">
-                        <img src="clock.svg" alt="Analog Clock Project" class="w-[170px] mx-auto mb-4">
+                        <img src="images/clock.svg" alt="Analog Clock Project" class="w-[170px] mx-auto mb-4">
                         <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Analog Clock</h3>
                         <p class="text-[var(--lighter)] mb-4">An elegant analog clock that lets you view time from any
                             timezone around the world.</p>
@@ -141,7 +179,7 @@
                                 class="fa-solid fa-arrow-up-right-from-square ml-2"></i></button>
                     </div>
                     <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="200">
-                        <img src="url.svg" alt="URL Tools Project" class="w-[170px] mx-auto mb-4">
+                        <img src="images/url.svg" alt="URL Tools Project" class="w-[170px] mx-auto mb-4">
                         <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">URL Tools</h3>
                         <p class="text-[var(--lighter)] mb-4">A versatile tool that lets you shorten URLs, generate QR
                             codes, and convert text between different cases.</p>
@@ -149,7 +187,8 @@
                                 class="fa-solid fa-arrow-up-right-from-square ml-2"></i></button>
                     </div>
                     <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="200">
-                        <img src="tic-tac-toe-svgrepo-com.svg" alt="URL Tools Project" class="w-[170px] mx-auto mb-4">
+                        <img src="images/tic-tac-toe-svgrepo-com.svg" alt="URL Tools Project"
+                            class="w-[170px] mx-auto mb-4">
                         <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Tic-Tac-Toe</h3>
                         <p class="text-[var(--lighter)] mb-4">A simple and fun game of Tic-Tac-Toe that you can play
                             with your friends.</p>
@@ -158,13 +197,29 @@
                     </div>
 
                     <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="300">
-                        <img src="question-mark.svg" alt="Coming Soon Project" class="w-[170px] mx-auto mb-4">
+                        <img src="images/question-mark.svg" alt="Coming Soon Project" class="w-[170px] mx-auto mb-4">
                         <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Coming Soon!</h3>
                         <p class="text-[var(--lighter)] mb-4">Stay tuned for an exciting new project that I am currently
                             building. I'm working hard to create something innovative and unique that will showcase my
                             growing skills as a developer.</p>
                         </p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="work" class="min-h-[120vh] flex items-center justify-center py-20">
+            <div class="max-w-md mx-auto px-6">
+                <h2 class="text-3xl font-bold gradient-text mb-12 text-center" data-aos="fade-up">.work()</h2>
+                <div class="work-card p-8 rounded-lg bg-[var(--darker)] mx-auto" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-6 text-[var(--primary)]">Nepal Wireless Management System</h3>
+                    <p class="text-[var(--lighter)] mb-8">A wireless network management system built for Nepal's leading
+                        ISP infrastructure. The system provides comprehensive network monitoring, user management, and
+                        billing solutions.</p>
+                    <button onclick="window.open('https://dev.wireless.nicnepal.org', '_blank')" class="btn w-full">
+                        View Project <i class="fa-solid fa-arrow-up-right-from-square ml-2"></i>
+                    </button>
                 </div>
             </div>
         </section>
@@ -221,8 +276,8 @@
 
                 <div class="cta-buttons flex flex-col md:flex-row items-center justify-center gap-6 mb-12"
                     data-aos="fade-up" data-aos-delay="400">
-                    <a href="resumebidhan.pdf" class="btn hover:scale-105 transition-transform flex items-center gap-2"
-                        target="_blank">
+                    <a href="images/resumebidhan.pdf"
+                        class="btn hover:scale-105 transition-transform flex items-center gap-2" target="_blank">
                         <i class="far fa-file-pdf"></i>View Resume
                     </a>
                 </div>
@@ -267,6 +322,8 @@
                             class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.about()</a>
                         <a href="#projects"
                             class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.projects()</a>
+                        <a href="#work"
+                            class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.work()</a>
                         <a href="#contact"
                             class="text-[var(--lighter)] hover:text-[var(--accent)] transition-colors">.contact()</a>
                     </nav>
