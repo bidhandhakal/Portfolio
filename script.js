@@ -1,6 +1,19 @@
 window.addEventListener('load', () => {
     window.scrollTo(0, 0);
 
+    // Prevent zooming
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=')) {
+            e.preventDefault();
+        }
+    });
+    
+    document.addEventListener('wheel', function(e) {
+        if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
     const dots = document.querySelector('.dots');
     let count = 0;
     const dotsInterval = setInterval(() => {
