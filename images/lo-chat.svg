@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 520 520" version="1.1" viewBox="0 0 520 520">
+<switch>
+	<foreignObject width="1" height="1" requiredExtensions="http://ns.adobe.com/AdobeIllustrator/10.0/">
+	</foreignObject>
+	<g>
+		<linearGradient id="g" x1="300.78" x2="519.72" y1="119.92" y2="119.92" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" offset="0"/>
+			<stop stop-color="#000000" offset="1"/>
+		</linearGradient>
+		<polygon points="510 7.742 352.9 232.09 285.65 7.742" fill="url(#g)"/>
+		<linearGradient id="h" x1="377.3" x2="176.06" y1="340.19" y2="180.91" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" offset="0"/>
+			<stop stop-color="#000000" offset="1"/>
+		</linearGradient>
+		<polygon points="413.02 456.44 128.55 232.09 352.9 232.09" fill="url(#h)"/>
+		<linearGradient id="i" x1="356.35" x2="368.15" y1="239.1" y2="461.97" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" offset="0"/>
+			<stop stop-color="#000000" offset="1"/>
+		</linearGradient>
+		<polygon points="427.98 512.26 426.99 512.26 308.71 418.96 352.9 232.09" fill="url(#i)"/>
+		<linearGradient id="j" x1="71.461" x2="157.99" y1="188.67" y2="70.022" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" offset="0"/>
+			<stop stop-color="#000000" offset="1"/>
+		</linearGradient>
+		<polygon points="196.21 135.44 103.12 147.23 10 158.98 77.664 62.333" fill="url(#j)"/>
+		<linearGradient id="k" x1="49.472" x2="198.27" y1="110.77" y2="205.16" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" offset="0"/>
+			<stop stop-color="#000000" offset="1"/>
+		</linearGradient>
+		<polygon points="352.9 232.09 128.55 232.09 77.664 62.333 196.21 135.44" fill="url(#k)"/>
+		<linearGradient id="l" x1="240.72" x2="240.72" y1="230.74" y2="7.8584" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#FFFFFF" offset="0"/>
+			<stop stop-color="#000000" offset="1"/>
+		</linearGradient>
+		<polygon points="352.9 232.09 128.55 232.09 285.65 7.742" fill="url(#l)"/>
+		<polygon points="77.664 62.333 103.1 147.23 98.424 147.58" fill="#000000"/>
+		<polygon points="128.55 232.09 196.21 135.46 192.23 132.98" fill="#000000"/>
+		<polygon points="352.9 232.09 293.02 7.742 285.65 7.742" fill="#CCCCCC"/>
+		<polygon points="317.64 381.22 312.88 377.46 352.9 232.09" fill="#000000"/>
+		<rect width="520" height="520" fill="none"/>
+	</g>
+</switch>
+</svg>
