@@ -1,9 +1,7 @@
-    document.addEventListener('wheel', function(e) {
-        if (e.ctrlKey || e.metaKey) {
-            e.preventDefault();
-        }
-    }, { passive: false });
+window.addEventListener('load', () => {
+    window.scrollTo(0, 0);
 
+    
 
     const dots = document.querySelector('.dots');
     let count = 0;
