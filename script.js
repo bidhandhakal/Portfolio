@@ -1,3 +1,10 @@
+    document.addEventListener('wheel', function(e) {
+        if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+
     const dots = document.querySelector('.dots');
     let count = 0;
     const dotsInterval = setInterval(() => {
