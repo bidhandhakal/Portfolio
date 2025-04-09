@@ -26,25 +26,17 @@
 
 <body class="relative">
     <div id="loading" class="fixed inset-0 bg-[var(--darker)] z-50 flex items-center justify-center">
-        <div class="loader">
-            <svg viewBox="0 0 80 80">
-                <circle r="32" cy="40" cx="40" id="test"></circle>
-            </svg>
+        <div class="banter-loader">
+            <div class="banter-loader__box"></div>
+            <div class="banter-loader__box"></div>
+            <div class="banter-loader__box"></div>
+            <div class="banter-loader__box"></div>
+            <div class="banter-loader__box"></div>
+            <div class="banter-loader__box"></div>
+            <div class="banter-loader__box"></div>
+            <div class="banter-loader__box"></div>
+            <div class="banter-loader__box"></div>
         </div>
-
-        <div class="loader triangle">
-            <svg viewBox="0 0 86 80">
-                <polygon points="43 8 79 72 7 72"></polygon>
-            </svg>
-        </div>
-
-        <div class="loader">
-            <svg viewBox="0 0 80 80">
-                <rect height="64" width="64" y="8" x="8"></rect>
-            </svg>
-        </div>
-
-    </div>
     </div>
 
     <div id="canvas-container"></div>
@@ -145,14 +137,15 @@
                             </div>
                             <div class="flip-card-back relative group">
                                 <img src="images/photo.webp" alt="Profile Photo Back" class="profile-image">
-                                <span class="absolute -right-48 top-1/2 -translate-y-1/2 text-2xl font-bold text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span
+                                    class="absolute -right-48 top-1/2 -translate-y-1/2 text-2xl font-bold text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity">
                                     Bidhan Dhakal
                                 </span>
-                            </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </section>
 
@@ -199,10 +192,10 @@
 
 
                     <div class="project-card p-6 rounded-lg bg-[var(--darker)]" data-aos="fade-up" data-aos-delay="200">
-                        <img src="images/lo-chat.svg" alt="URL Tools Project"
-                            class="w-[170px] mx-auto mb-4">
+                        <img src="images/lo-chat.svg" alt="URL Tools Project" class="w-[170px] mx-auto mb-4">
                         <h3 class="text-xl font-bold mb-4 text-[var(--primary)]">Chatryx</h3>
-                        <p class="text-[var(--lighter)] mb-4">A modern real-time chat app with authentication and messaging features built using Next.js and TypeScript.</p>
+                        <p class="text-[var(--lighter)] mb-4">A modern real-time chat app with authentication and
+                            messaging features built using Next.js and TypeScript.</p>
                         <button onclick="window.open('https://chatryx.vercel.app', '_blank')" class="btn w-full">View <i
                                 class="fa-solid fa-arrow-up-right-from-square ml-2"></i></button>
                     </div>
