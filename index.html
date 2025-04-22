@@ -43,8 +43,10 @@
 
     <header class="fixed w-full top-0 z-50 glass">
         <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold mono text-[var(--primary)] no-underline flex items-center">
-                <img src="images/photo2.webp" alt="Bidhan" class="w-8 h-8 rounded-full mr-2">
+            <a href="#" class="text-2xl font-bold mono text-[var(--primary)] no-underline flex items-center"
+                data-aos="fade-right" data-aos-duration="1000">
+                <img src="images/photo2.webp" alt="Bidhan"
+                    class="w-8 h-8 rounded-full mr-2 border-2 border-[var(--primary)] object-cover object-center shadow-md">
                 Bidhan.
             </a>
 
@@ -131,21 +133,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="relative flex justify-center items-center" data-aos="fade-left">
+                <div class="relative flex justify-center items-center group" data-aos="fade-left">
                     <div class="flip-card">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <img src="images/photo2.webp" alt="Profile Photo Front" class="profile-image">
                             </div>
-                            <div class="flip-card-back relative group">
+                            <div class="flip-card-back relative">
                                 <img src="images/photo.webp" alt="Profile Photo Back" class="profile-image">
-                                <span
-                                    class="absolute -right-48 top-1/2 -translate-y-1/2 text-2xl font-bold text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity">
-                                    Bidhan Dhakal
-                                </span>
                             </div>
                         </div>
                     </div>
+                    <span
+                        class="absolute -bottom-10 text-2xl font-bold text-[var(--primary)] opacity-0 group-hover:opacity-100 transition-opacity">
+                        Bidhan Dhakal
+                    </span>
                 </div>
             </div>
             </div>
@@ -316,8 +318,11 @@
             </div>
         </section>
     </main>
-    <footer class="bg-[var(--darker)] py-8">
-        <div class="max-w-6xl mx-auto px-6">
+    <footer class="bg-[var(--darker)] py-8 relative overflow-hidden">
+        <!-- Water wave canvas -->
+        <canvas id="footerWaveCanvas" class="absolute top-0 left-0 w-full h-full opacity-30"></canvas>
+
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="text-center md:text-left mb-4 md:mb-0">
                     <h3 class="text-xl font-bold text-[var(--primary)] mb-2">Bidhan Dhakal</h3>
@@ -355,6 +360,79 @@
                 </div>
             </div>
         </div>
+
+        <!-- Script for water wave effect -->
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const canvas = document.getElementById('footerWaveCanvas');
+                const ctx = canvas.getContext('2d');
+
+                // Set canvas dimensions
+                function resizeCanvas() {
+                    canvas.width = canvas.offsetWidth;
+                    canvas.height = canvas.offsetHeight;
+                }
+
+                window.addEventListener('resize', resizeCanvas);
+                resizeCanvas();
+
+                // Wave properties
+                const waves = {
+                    y: canvas.height / 2,
+                    length: 0.01,
+                    amplitude: 20,
+                    frequency: 0.01
+                };
+
+                // Color of the waves (matching accent color)
+                const waveColor = getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#4a9fff';
+
+                // Animation
+                let time = 0;
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                    // Draw multiple wave layers
+                    drawWave(time, waves.amplitude, 2.8);
+                    drawWave(time * 0.8, waves.amplitude * 0.7, 0.3);
+
+                    time += 0.05;
+                }
+
+                function drawWave(t, amplitude, opacity) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, canvas.height);
+
+                    // Draw wave path
+                    for (let i = 0; i < canvas.width; i++) {
+                        const x = i;
+                        // Create wave effect with sine function
+                        const y = canvas.height - 50 + Math.sin(x * waves.length + t) * amplitude;
+                        ctx.lineTo(x, y);
+                    }
+
+                    // Complete the wave path
+                    ctx.lineTo(canvas.width, canvas.height);
+                    ctx.closePath();
+
+                    // Fill with gradient
+                    const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+                    gradient.addColorStop(0, `${waveColor}33`); // 20% opacity
+                    gradient.addColorStop(0.5, `${waveColor}66`); // 40% opacity
+                    gradient.addColorStop(1, `${waveColor}33`); // 20% opacity
+
+                    ctx.fillStyle = gradient;
+                    ctx.globalAlpha = opacity;
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+
+                // Start animation
+                animate();
+            });
+        </script>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
