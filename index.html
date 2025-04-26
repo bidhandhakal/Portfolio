@@ -131,6 +131,21 @@
                             <img src="https://imgs.search.brave.com/oG3o98QjKAbPSLZPTOvPhupljLwbNmIQ42GfRq2TFXw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9k/L2Q1L1RhaWx3aW5k/X0NTU19Mb2dvLnN2/Zw"
                                 class="w-0 h-0 group-hover:w-6 group-hover:h-6 transition-all" alt="Tailwind logo" />
                         </div>
+                        <div class="hover:scale-105 transition-transform flex items-center gap-2 group">
+                            <span>▹ TypeScript</span>
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+                                class="w-0 h-0 group-hover:w-6 group-hover:h-6 transition-all" alt="TypeScript logo" />
+                        </div>
+                        <div class="hover:scale-105 transition-transform flex items-center gap-2 group">
+                            <span>▹ React</span>
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                                class="w-0 h-0 group-hover:w-6 group-hover:h-6 transition-all" alt="React logo" />
+                        </div>
+                        <div class="hover:scale-105 transition-transform flex items-center gap-2 group">
+                            <span>▹ Next.js</span>
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+                                class="w-0 h-0 group-hover:w-6 group-hover:h-6 transition-all" alt="Next.js logo" />
+                        </div>
                     </div>
                 </div>
                 <div class="relative flex justify-center items-center group" data-aos="fade-left">
@@ -325,7 +340,7 @@
         <div class="max-w-6xl mx-auto px-6 relative z-10">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="text-center md:text-left mb-4 md:mb-0">
-                    <h3 class="text-xl font-bold text-[var(--primary)] mb-2">Bidhan Dhakal</h3>
+                    <h3 class="text-xl font-bold text-[var(--primary)] mb-2">Bidhan.</h3>
                     <p class="text-[var(--lighter)] text-sm">Frontend Developer</p>
                 </div>
                 <div class="flex flex-col md:flex-row items-center gap-4">
@@ -380,12 +395,12 @@
                 const waves = {
                     y: canvas.height / 2,
                     length: 0.01,
-                    amplitude: 20,
+                    amplitude: 30,
                     frequency: 0.01
                 };
 
-                // Color of the waves (matching accent color)
-                const waveColor = getComputedStyle(document.documentElement).getPropertyValue('--accent') || '#4a9fff';
+                // Color of the waves (high contrast for better visibility)
+                const waveColor = getComputedStyle(document.documentElement).getPropertyValue('--primary') || '#00ffff';
 
                 // Animation
                 let time = 0;
@@ -409,7 +424,7 @@
                     for (let i = 0; i < canvas.width; i++) {
                         const x = i;
                         // Create wave effect with sine function
-                        const y = canvas.height - 50 + Math.sin(x * waves.length + t) * amplitude;
+                        const y = canvas.height - 100 + Math.sin(x * waves.length + t) * amplitude;
                         ctx.lineTo(x, y);
                     }
 
@@ -419,9 +434,9 @@
 
                     // Fill with gradient
                     const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-                    gradient.addColorStop(0, `${waveColor}33`); // 20% opacity
-                    gradient.addColorStop(0.5, `${waveColor}66`); // 40% opacity
-                    gradient.addColorStop(1, `${waveColor}33`); // 20% opacity
+                    gradient.addColorStop(0, `rgba(0, 255, 255, 0.2)`); // 20% opacity
+                    gradient.addColorStop(0.5, `rgba(0, 255, 255, 0.6)`); // 40% opacity
+                    gradient.addColorStop(1, `rgba(0, 255, 255, 0.2)`); // 20% opacity
 
                     ctx.fillStyle = gradient;
                     ctx.globalAlpha = opacity;
