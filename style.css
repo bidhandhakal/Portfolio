@@ -22,6 +22,14 @@ body {
   scroll-behavior: smooth;
 }
 
+h1,
+h2,
+h3,
+.bebas-neue {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+}
+
 ::selection {
   background-color: var(--primary);
   color: blue;
@@ -802,16 +810,18 @@ section {
   height: 300px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--primary);
+  border: 3px solid var(--primary);
   padding: 5px;
   background: var(--darker);
   transition: all 0.3s ease;
-  animation: waterEffect 3s ease-in-out infinite;
+  animation: waterEffect 5s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
 }
 
 .profile-image:hover {
   transform: scale(1.05);
   border-color: var(--lighter);
+  animation: waterEffectFast 5s ease-in-out infinite;
 }
 
 @keyframes waterEffect {
@@ -819,8 +829,16 @@ section {
     border-radius: 50%;
   }
 
+  25% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+
   50% {
-    border-radius: 45% 55% 55% 45% / 46% 45% 55% 54%;
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+
+  75% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
 
   100% {
@@ -828,6 +846,32 @@ section {
   }
 }
 
+@keyframes waterEffectFast {
+  0% {
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(100, 255, 218, 0.8);
+  }
+
+  25% {
+    border-radius: 65% 35% 25% 75% / 65% 25% 75% 35%;
+    box-shadow: 0 0 25px rgba(100, 255, 218, 0.9);
+  }
+
+  50% {
+    border-radius: 25% 65% 75% 35% / 45% 65% 25% 65%;
+    box-shadow: 0 0 30px rgba(100, 255, 218, 1);
+  }
+
+  75% {
+    border-radius: 65% 35% 25% 75% / 65% 25% 75% 35%;
+    box-shadow: 0 0 25px rgba(100, 255, 218, 0.9);
+  }
+
+  100% {
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(100, 255, 218, 0.8);
+  }
+}
 
 .mobile-menu {
   display: none;
