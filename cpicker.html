@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono&display=swap"
+        rel="stylesheet">
 
     <style>
         :root {
@@ -40,10 +43,19 @@
             background-color: var(--primary);
             color: blue;
         }
+
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         .color-picker-container {
@@ -223,36 +235,42 @@
         }
     </style>
 </head>
+
 <body>
     <a href="index.html" class="Name" title="Back to Portfolio"><i class="fa-solid fa-code"></i> Bidhan.</a>
-    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-center" style="font-family: 'Orbitron', sans-serif;" data-aos="fade-down">
-    Color Picker
+    <h1 class="text-3xl md:text-4xl font-bold mb-4 text-center" style="font-family: 'Orbitron', sans-serif;"
+        data-aos="fade-down">
+        Color Picker
     </h1>
-    
+
     <div class="color-picker-container" data-aos="fade-up">
         <div class="color-display" id="colorDisplay"></div>
-        
+
         <div class="color-history grid grid-cols-5 sm:grid-cols-10 gap-2 mb-4" id="colorHistory"></div>
 
         <div class="space-y-2">
             <div class="flex items-center gap-3">
                 <span class="w-16">Red</span>
-                <input type="range" min="0" max="255" value="0" class="color-slider flex-1" id="redSlider" style="background: linear-gradient(to right, #000, #f00)">
+                <input type="range" min="0" max="255" value="0" class="color-slider flex-1" id="redSlider"
+                    style="background: linear-gradient(to right, #000, #f00)">
                 <span class="w-10 text-right" id="redValue">0</span>
             </div>
             <div class="flex items-center gap-3">
                 <span class="w-16">Green</span>
-                <input type="range" min="0" max="255" value="0" class="color-slider flex-1" id="greenSlider" style="background: linear-gradient(to right, #000, #0f0)">
+                <input type="range" min="0" max="255" value="0" class="color-slider flex-1" id="greenSlider"
+                    style="background: linear-gradient(to right, #000, #0f0)">
                 <span class="w-10 text-right" id="greenValue">0</span>
             </div>
             <div class="flex items-center gap-3">
                 <span class="w-16">Blue</span>
-                <input type="range" min="0" max="255" value="0" class="color-slider flex-1" id="blueSlider" style="background: linear-gradient(to right, #000, #00f)">
+                <input type="range" min="0" max="255" value="0" class="color-slider flex-1" id="blueSlider"
+                    style="background: linear-gradient(to right, #000, #00f)">
                 <span class="w-10 text-right" id="blueValue">0</span>
             </div>
             <div class="flex items-center gap-3">
                 <span class="w-16">Alpha</span>
-                <input type="range" min="0" max="100" value="100" class="color-slider flex-1" id="alphaSlider" style="background: linear-gradient(to right, transparent, #fff)">
+                <input type="range" min="0" max="100" value="100" class="color-slider flex-1" id="alphaSlider"
+                    style="background: linear-gradient(to right, transparent, #fff)">
                 <span class="w-10 text-right" id="alphaValue">100</span>
             </div>
         </div>
@@ -373,12 +391,12 @@
         // Add color to history
         function addToHistory(color) {
             if (colorHistoryArray.includes(color)) return;
-            
+
             colorHistoryArray.unshift(color);
             if (colorHistoryArray.length > 10) {
                 colorHistoryArray.pop();
             }
-            
+
             updateHistoryDisplay();
         }
 
@@ -426,7 +444,7 @@
             const g = parseInt(greenSlider.value);
             const b = parseInt(blueSlider.value);
             const hsl = rgbToHsl(r, g, b);
-            
+
             const schemes = generateColorSchemes(hsl.h, hsl.s, hsl.l);
             displayColorSchemes(schemes);
         });
@@ -455,7 +473,7 @@
             Object.entries(schemes).forEach(([name, colors]) => {
                 const schemeContainer = document.createElement('div');
                 schemeContainer.className = 'space-y-2';
-                
+
                 const title = document.createElement('h3');
                 title.className = 'text-primary capitalize text-sm';
                 title.textContent = name;
@@ -496,17 +514,17 @@
                 const hue2rgb = (p, q, t) => {
                     if (t < 0) t += 1;
                     if (t > 1) t -= 1;
-                    if (t < 1/6) return p + (q - p) * 6 * t;
-                    if (t < 1/2) return q;
-                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    if (t < 1 / 6) return p + (q - p) * 6 * t;
+                    if (t < 1 / 2) return q;
+                    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
                     return p;
                 };
 
                 const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
                 const p = 2 * l - q;
-                r = hue2rgb(p, q, h + 1/3);
+                r = hue2rgb(p, q, h + 1 / 3);
                 g = hue2rgb(p, q, h);
-                b = hue2rgb(p, q, h - 1/3);
+                b = hue2rgb(p, q, h - 1 / 3);
             }
 
             return {
@@ -563,7 +581,7 @@
             if (ctx) {
                 ctx.fillStyle = `rgba(${redSlider.value}, ${greenSlider.value}, ${blueSlider.value}, ${alphaSlider.value / 100})`;
                 ctx.fillRect(0, 0, 100, 100);
-                
+
                 const link = document.createElement('a');
                 link.download = 'color.png';
                 link.href = canvas.toDataURL();
@@ -581,4 +599,5 @@
         updateColor();
     </script>
 </body>
+
 </html>

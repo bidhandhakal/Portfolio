@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -110,11 +111,11 @@
             color: var(--toggle-bg);
         }
 
-        input:checked + .slider {
+        input:checked+.slider {
             background-color: var(--toggle-bg);
         }
 
-        input:checked + .slider:before {
+        input:checked+.slider:before {
             transform: translateX(26px);
             content: "\f185";
         }
@@ -156,7 +157,8 @@
 
         .background-circle {
             position: absolute;
-            width: min(200px, 60vw); /* Small circle */
+            width: min(200px, 60vw);
+            /* Small circle */
             height: min(200px, 60vw);
             border-radius: 50%;
             background-color: crimson;
@@ -168,40 +170,81 @@
         }
 
         .background-circle:nth-child(2) {
-            width: min(300px, 80vw); /* Medium circle */
+            width: min(300px, 80vw);
+            /* Medium circle */
             height: min(300px, 80vw);
             animation: moveCircleMedium 20s infinite alternate;
             animation-delay: 3s;
         }
 
         .background-circle:nth-child(3) {
-            width: min(400px, 90vw); /* Large circle */
+            width: min(400px, 90vw);
+            /* Large circle */
             height: min(400px, 90vw);
             animation: moveCircleLarge 25s infinite alternate;
             animation-delay: 6s;
         }
 
         @keyframes moveCircleSmall {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(30vw, -15vh) rotate(90deg) scale(1.2); }
-            50% { transform: translate(-20vw, 25vh) rotate(180deg) scale(0.8); }
-            75% { transform: translate(15vw, -20vh) rotate(270deg) scale(1.1); }
-            100% { transform: translate(-25vw, 15vh) rotate(360deg) scale(0.9); }
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(30vw, -15vh) rotate(90deg) scale(1.2);
+            }
+
+            50% {
+                transform: translate(-20vw, 25vh) rotate(180deg) scale(0.8);
+            }
+
+            75% {
+                transform: translate(15vw, -20vh) rotate(270deg) scale(1.1);
+            }
+
+            100% {
+                transform: translate(-25vw, 15vh) rotate(360deg) scale(0.9);
+            }
         }
 
         @keyframes moveCircleMedium {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(-30vw, -20vh) rotate(120deg) scale(1.3); }
-            66% { transform: translate(20vw, 25vh) rotate(240deg) scale(0.7); }
-            100% { transform: translate(15vw, -15vh) rotate(360deg) scale(1.1); }
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            33% {
+                transform: translate(-30vw, -20vh) rotate(120deg) scale(1.3);
+            }
+
+            66% {
+                transform: translate(20vw, 25vh) rotate(240deg) scale(0.7);
+            }
+
+            100% {
+                transform: translate(15vw, -15vh) rotate(360deg) scale(1.1);
+            }
         }
 
         @keyframes moveCircleLarge {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(-25vw, 20vh) rotate(90deg) scale(1.2); }
-            50% { transform: translate(30vw, -25vh) rotate(180deg) scale(0.9); }
-            75% { transform: translate(-15vw, -20vh) rotate(270deg) scale(1.1); }
-            100% { transform: translate(20vw, 25vh) rotate(360deg) scale(0.8); }
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(-25vw, 20vh) rotate(90deg) scale(1.2);
+            }
+
+            50% {
+                transform: translate(30vw, -25vh) rotate(180deg) scale(0.9);
+            }
+
+            75% {
+                transform: translate(-15vw, -20vh) rotate(270deg) scale(1.1);
+            }
+
+            100% {
+                transform: translate(20vw, 25vh) rotate(360deg) scale(0.8);
+            }
         }
 
         .clock-container {
@@ -223,7 +266,7 @@
             position: relative;
             background: rgba(0, 0, 0, 0.8);
             border: min(12px, 3vw) solid var(--primary-color);
-            box-shadow: 
+            box-shadow:
                 0 0 0 4px rgba(0, 255, 255, 0.1),
                 0 0 0 8px rgba(0, 255, 255, 0.05),
                 0 0 10px rgba(0, 255, 255, 0.1),
@@ -299,13 +342,25 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         @keyframes fadeInNumbers {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         #timezone-select {
@@ -384,6 +439,7 @@
         }
     </style>
 </head>
+
 <body>
     <a href="index.html" class="Name" title="Back to Portfolio"><i class="fa-solid fa-code"></i> Bidhan.</a>
     <div class="theme-switch-wrapper">
@@ -402,18 +458,30 @@
             <div class="hand hour"></div>
             <div class="hand minute"></div>
             <div class="hand second"></div>
-            <div class="number" style="transform: rotate(0deg);"><span style="transform: rotate(0deg); animation-delay: 0.1s;">12</span></div>
-            <div class="number" style="transform: rotate(30deg);"><span style="transform: rotate(-30deg); animation-delay: 0.2s;">1</span></div>
-            <div class="number" style="transform: rotate(60deg);"><span style="transform: rotate(-60deg); animation-delay: 0.3s;">2</span></div>
-            <div class="number" style="transform: rotate(90deg);"><span style="transform: rotate(-90deg); animation-delay: 0.4s;">3</span></div>
-            <div class="number" style="transform: rotate(120deg);"><span style="transform: rotate(-120deg); animation-delay: 0.5s;">4</span></div>
-            <div class="number" style="transform: rotate(150deg);"><span style="transform: rotate(-150deg); animation-delay: 0.6s;">5</span></div>
-            <div class="number" style="transform: rotate(180deg);"><span style="transform: rotate(-180deg); animation-delay: 0.7s;">6</span></div>
-            <div class="number" style="transform: rotate(210deg);"><span style="transform: rotate(-210deg); animation-delay: 0.8s;">7</span></div>
-            <div class="number" style="transform: rotate(240deg);"><span style="transform: rotate(-240deg); animation-delay: 0.9s;">8</span></div>
-            <div class="number" style="transform: rotate(270deg);"><span style="transform: rotate(-270deg); animation-delay: 1s;">9</span></div>
-            <div class="number" style="transform: rotate(300deg);"><span style="transform: rotate(-300deg); animation-delay: 1.1s;">10</span></div>
-            <div class="number" style="transform: rotate(330deg);"><span style="transform: rotate(-330deg); animation-delay: 1.2s;">11</span></div>
+            <div class="number" style="transform: rotate(0deg);"><span
+                    style="transform: rotate(0deg); animation-delay: 0.1s;">12</span></div>
+            <div class="number" style="transform: rotate(30deg);"><span
+                    style="transform: rotate(-30deg); animation-delay: 0.2s;">1</span></div>
+            <div class="number" style="transform: rotate(60deg);"><span
+                    style="transform: rotate(-60deg); animation-delay: 0.3s;">2</span></div>
+            <div class="number" style="transform: rotate(90deg);"><span
+                    style="transform: rotate(-90deg); animation-delay: 0.4s;">3</span></div>
+            <div class="number" style="transform: rotate(120deg);"><span
+                    style="transform: rotate(-120deg); animation-delay: 0.5s;">4</span></div>
+            <div class="number" style="transform: rotate(150deg);"><span
+                    style="transform: rotate(-150deg); animation-delay: 0.6s;">5</span></div>
+            <div class="number" style="transform: rotate(180deg);"><span
+                    style="transform: rotate(-180deg); animation-delay: 0.7s;">6</span></div>
+            <div class="number" style="transform: rotate(210deg);"><span
+                    style="transform: rotate(-210deg); animation-delay: 0.8s;">7</span></div>
+            <div class="number" style="transform: rotate(240deg);"><span
+                    style="transform: rotate(-240deg); animation-delay: 0.9s;">8</span></div>
+            <div class="number" style="transform: rotate(270deg);"><span
+                    style="transform: rotate(-270deg); animation-delay: 1s;">9</span></div>
+            <div class="number" style="transform: rotate(300deg);"><span
+                    style="transform: rotate(-300deg); animation-delay: 1.1s;">10</span></div>
+            <div class="number" style="transform: rotate(330deg);"><span
+                    style="transform: rotate(-330deg); animation-delay: 1.2s;">11</span></div>
         </div>
     </div>
     <div id="digital-time"></div>
@@ -427,8 +495,8 @@
         let selectedTimezone;
 
         // Theme toggle
-        themeToggle.addEventListener('change', function(e) {
-            if(e.target.checked) {
+        themeToggle.addEventListener('change', function (e) {
+            if (e.target.checked) {
                 document.body.classList.add('light-theme');
             } else {
                 document.body.classList.remove('light-theme');
@@ -440,7 +508,7 @@
             const waterEffect = document.querySelector('.water-effect');
             const x = e.clientX;
             const y = e.clientY;
-            
+
             waterEffect.style.setProperty('--x', x + 'px');
             waterEffect.style.setProperty('--y', y + 'px');
 
@@ -492,7 +560,7 @@
         // Get user's location
         function getUserLocation() {
             if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(function(position) {
+                navigator.geolocation.getCurrentPosition(function (position) {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
                     fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`)
@@ -506,7 +574,7 @@
                             console.error("Error fetching location data:", error);
                             locationDisplay.textContent = "Location not available";
                         });
-                }, function(error) {
+                }, function (error) {
                     console.error("Error getting location:", error);
                     locationDisplay.textContent = "Location access denied";
                 });
@@ -520,7 +588,7 @@
             const options = { timeZone: selectedTimezone, hour12: false };
             const timeString = now.toLocaleString('en-US', options);
             const time = new Date(timeString);
-            
+
             const seconds = time.getSeconds();
             const minutes = time.getMinutes();
             const hours = time.getHours();
@@ -579,4 +647,5 @@
         getUserLocation();
     </script>
 </body>
+
 </html>

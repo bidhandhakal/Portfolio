@@ -680,7 +680,7 @@
             const cell = cells[index];
             const img = document.createElement('img');
             img.src = currentPlayer === 'X' ? xImageUrl : oImageUrl;
-            cell.innerHTML = ''; 
+            cell.innerHTML = '';
             cell.appendChild(img);
             cell.classList.add('filled');
             cell.classList.add(currentPlayer.toLowerCase());
@@ -846,7 +846,7 @@
         function evaluatePosition() {
             let score = 0;
 
-            const strategicPositions = [4, 0, 2, 6, 8]; 
+            const strategicPositions = [4, 0, 2, 6, 8];
             for (let pos of strategicPositions) {
                 if (gameBoard[pos] === 'O') score += 3;
                 if (gameBoard[pos] === 'X') score -= 2;
@@ -992,4 +992,5 @@
         resetBtn.addEventListener('click', resetGame);
     </script>
 </body>
+
 </html>
