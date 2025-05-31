@@ -24,7 +24,6 @@ window.addEventListener('load', () => {
     }, 2000);
 });
 
-// Only create cursor if not on mobile
 if (window.innerWidth > 768) {
     const cursor = document.createElement('div');
     cursor.classList.add('custom-cursor');
