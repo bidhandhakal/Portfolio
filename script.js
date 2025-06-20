@@ -8,16 +8,74 @@ window.addEventListener('load', () => {
         dots.textContent = '.'.repeat(count);
     }, 500);
 
+    // Set initial Earth scale and position for animation
+    if (earth) {
+        earth.scale.set(3, 3, 3); // Start with a larger scale
+        earth.position.set(0, 4, 0); // Start from a higher position
+
+        // Also scale up clouds
+        if (clouds) {
+            clouds.scale.set(1, 1, 1); // Keep clouds proportional
+        }
+
+        // Set moon initial position
+        if (moonPivot) {
+            // Store the original rotation for later
+            moonPivot.userData.originalRotation = moonPivot.rotation.y;
+            // Reset moon position for the animation
+            moonPivot.rotation.y = 0;
+        }
+    }
+
     setTimeout(() => {
         const loader = document.getElementById('loading');
         clearInterval(dotsInterval);
+
+        // Animate Earth to its final position and scale
+        if (earth) {
+            gsap.to(earth.scale, {
+                x: 1,
+                y: 1,
+                z: 1,
+                duration: 1.5,
+                ease: "elastic.out(1, 0.5)"
+            });
+
+            gsap.to(earth.position, {
+                x: 0,
+                y: 0,
+                z: 0,
+                duration: 1.2,
+                ease: "power3.out"
+            });
+
+            // Add a rotation effect during the transition
+            gsap.to(earth.rotation, {
+                y: Math.PI * 2,
+                duration: 1.5,
+                ease: "power2.inOut"
+            });
+
+            // Animate the moon to revolve around the Earth once
+            if (moonPivot) {
+                gsap.to(moonPivot.rotation, {
+                    y: Math.PI * 2,
+                    duration: 2.5,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        // After completing one revolution, continue with normal animation
+                        moonPivot.rotation.y = moonPivot.userData.originalRotation || 0;
+                    }
+                });
+            }
+        }
+
         gsap.to(loader, {
             opacity: 0,
             duration: 0.5,
             onComplete: () => {
                 loader.style.display = 'none';
                 dots.textContent = '';
-
                 window.scrollTo(0, 0);
             }
         });
@@ -199,6 +257,9 @@ const renderer = new THREE.WebGLRenderer({
     powerPreference: "high-performance"
 });
 
+// Declare earth and clouds variables at the top level
+let earth, clouds;
+
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 document.getElementById('canvas-container').appendChild(renderer.domElement);
@@ -262,7 +323,7 @@ const earthMaterial = new THREE.ShaderMaterial({
 });
 
 
-const earth = new THREE.Mesh(earthGeometry, earthMaterial);
+earth = new THREE.Mesh(earthGeometry, earthMaterial);
 
 
 const cloudGeometry = new THREE.SphereGeometry(1.53, 64, 64);
@@ -271,7 +332,7 @@ const cloudMaterial = new THREE.MeshPhongMaterial({
     transparent: true,
     opacity: 0.4
 });
-const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
 earth.add(clouds);
 
 scene.add(earth);

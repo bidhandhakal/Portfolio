@@ -32,7 +32,7 @@ h3,
 
 ::selection {
   background-color: var(--primary);
-  color: blue;
+  color: rgb(77, 77, 77);
 }
 
 
