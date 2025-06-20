@@ -305,18 +305,19 @@
         </section>
 
 
-        <section id="contact" class="min-h-screen flex items-center justify-center py-16">
-            <div class="max-w-7xl mx-auto px-6">
-                <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-12 text-center" data-aos="fade-up">.contact()
+        <section id="contact" class="min-h-[80vh] flex items-center justify-center py-10 w-screen overflow-hidden">
+            <div class="max-w-full mx-auto px-0">
+                <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-8 text-center" data-aos="fade-up">.contact()
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                     <!-- Left Column: Contact Info -->
-                    <div class="bg-[var(--darker)] p-8 rounded-lg" data-aos="fade-right" data-aos-delay="200">
-                        <div class="space-y-8">
+                    <div class="bg-[var(--darker)] p-4 md:p-6 rounded-lg w-full" data-aos="fade-right"
+                        data-aos-delay="200">
+                        <div class="space-y-4">
                             <div>
-                                <h3 class="text-2xl font-bold text-[var(--primary)] mb-6">Contact Details</h3>
-                                <div class="space-y-6">
+                                <h3 class="text-xl font-bold text-[var(--primary)] mb-4">Contact Details</h3>
+                                <div class="space-y-3">
                                     <div class="flex items-center gap-4">
                                         <div class="bg-[var(--primary)]/10 p-3 rounded-full">
                                             <i class="fas fa-map-marker-alt text-[var(--accent)] text-xl"></i>
@@ -324,6 +325,16 @@
                                         <div class="text-left">
                                             <h4 class="font-bold text-[var(--primary)]">Location</h4>
                                             <p class="text-[var(--lighter)]">Tulsipur, Nepal</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center gap-4">
+                                        <div class="bg-[var(--primary)]/10 p-3 rounded-full">
+                                            <i class="fas fa-phone text-[var(--accent)] text-xl"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <h4 class="font-bold text-[var(--primary)]">Phone</h4>
+                                            <p class="text-[var(--lighter)]">+977 9768316936</p>
                                         </div>
                                     </div>
 
@@ -340,41 +351,21 @@
                             </div>
 
                             <div>
-                                <h3 class="text-2xl font-bold text-[var(--primary)] mb-6">Resume</h3>
+                                <h3 class="text-xl font-bold text-[var(--primary)] mb-4">Resume</h3>
                                 <a href="images/resumebidhan.pdf"
                                     class="btn w-full flex items-center justify-center gap-2" target="_blank">
                                     <i class="far fa-file-pdf"></i>View Resume
                                 </a>
                             </div>
 
-                            <div>
-                                <h3 class="text-2xl font-bold text-[var(--primary)] mb-6">Connect With Me</h3>
-                                <div class="flex justify-center space-x-6">
-                                    <a href="https://github.com/BidhanDhakal" target="_blank" rel="noopener noreferrer"
-                                        class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-110"
-                                        title="GitHub">
-                                        <i class="fab fa-github text-2xl"></i>
-                                    </a>
-                                    <a href="https://www.linkedin.com/in/bidhan-dhakal-487347337/" target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-110"
-                                        title="LinkedIn">
-                                        <i class="fab fa-linkedin text-2xl"></i>
-                                    </a>
-                                    <a href="https://www.facebook.com/profile.php?id=61556013907076" target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-110"
-                                        title="Facebook">
-                                        <i class="fa-brands fa-facebook text-2xl"></i>
-                                    </a>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
 
                     <!-- Right Column: Contact Form -->
-                    <div class="bg-[var(--darker)] p-8 rounded-lg" data-aos="fade-left" data-aos-delay="300">
-                        <form id="contactForm" class="space-y-6">
+                    <div class="bg-[var(--darker)] p-4 md:p-6 rounded-lg w-full" data-aos="fade-left"
+                        data-aos-delay="300">
+                        <form id="contactForm" class="space-y-4">
                             <div class="form-group">
                                 <input type="text" id="name" name="name" placeholder="Your Name" required
                                     class="w-full p-3 bg-[var(--dark)] border border-[var(--primary)]/30 rounded-md focus:outline-none focus:border-[var(--primary)] transition-colors text-[var(--lighter)]">
@@ -386,7 +377,7 @@
                             </div>
 
                             <div class="form-group">
-                                <textarea id="message" name="message" rows="7" placeholder="Your Message" required
+                                <textarea id="message" name="message" rows="4" placeholder="Your Message" required
                                     class="w-full p-3 bg-[var(--dark)] border border-[var(--primary)]/30 rounded-md focus:outline-none focus:border-[var(--primary)] transition-colors text-[var(--lighter)]"></textarea>
                             </div>
 
@@ -394,6 +385,30 @@
                                 Send Message <i class="fas fa-paper-plane ml-2"></i>
                             </button>
                         </form>
+                    </div>
+                </div>
+
+                <!-- Connect With Me Section - Moved outside container -->
+                <div class="w-full py-6 bg-[var(--darker)]/70 mt-8">
+                    <h3 class="text-2xl font-bold text-[var(--primary)] mb-6 text-center">Connect With Me</h3>
+                    <div class="flex justify-center space-x-10">
+                        <a href="https://github.com/BidhanDhakal" target="_blank" rel="noopener noreferrer"
+                            class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-125"
+                            title="GitHub">
+                            <i class="fab fa-github text-3xl"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/bidhan-dhakal-487347337/" target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-125"
+                            title="LinkedIn">
+                            <i class="fab fa-linkedin text-3xl"></i>
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61556013907076" target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-icon hover:text-[var(--accent)] transition-all transform hover:scale-125"
+                            title="Facebook">
+                            <i class="fa-brands fa-facebook text-3xl"></i>
+                        </a>
                     </div>
                 </div>
             </div>
