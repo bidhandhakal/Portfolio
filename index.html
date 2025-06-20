@@ -305,7 +305,8 @@
         </section>
 
 
-        <section id="contact" class="min-h-[80vh] flex items-center justify-center py-10 w-screen overflow-hidden">
+        <section id="contact"
+            class="min-h-[80vh] flex items-center justify-center py-10 w-screen overflow-hidden mt-40">
             <div class="max-w-full mx-auto px-0">
                 <h2 class="text-3xl md:text-4xl font-bold gradient-text mb-8 text-center" data-aos="fade-up">.contact()
                 </h2>
@@ -362,10 +363,13 @@
                         </div>
                     </div>
 
-                    <!-- Right Column: Contact Form -->
                     <div class="bg-[var(--darker)] p-4 md:p-6 rounded-lg w-full" data-aos="fade-left"
                         data-aos-delay="300">
-                        <form id="contactForm" class="space-y-4">
+                        <form id="contactForm" class="space-y-4"
+                            action="https://formsubmit.co/ajax/bidhandhakal365@gmail.com" method="POST">
+                            <input type="hidden" name="_subject" value="New Portfolio Contact Message">
+                            <input type="hidden" name="_captcha" value="false">
+
                             <div class="form-group">
                                 <input type="text" id="name" name="name" placeholder="Your Name" required
                                     class="w-full p-3 bg-[var(--dark)] border border-[var(--primary)]/30 rounded-md focus:outline-none focus:border-[var(--primary)] transition-colors text-[var(--lighter)]">
@@ -381,7 +385,7 @@
                                     class="w-full p-3 bg-[var(--dark)] border border-[var(--primary)]/30 rounded-md focus:outline-none focus:border-[var(--primary)] transition-colors text-[var(--lighter)]"></textarea>
                             </div>
 
-                            <button type="submit" class="btn w-full">
+                            <button type="submit" id="submitBtn" class="btn w-full">
                                 Send Message <i class="fas fa-paper-plane ml-2"></i>
                             </button>
                         </form>
@@ -534,6 +538,61 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
+
+    <!-- Form submission script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const contactForm = document.getElementById('contactForm');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    // Get form data before clearing
+                    const formData = new FormData(contactForm);
+                    const formDataObject = {};
+                    formData.forEach((value, key) => {
+                        formDataObject[key] = value;
+                    });
+
+                    // Immediately change button text to Message Sent
+                    submitBtn.innerHTML = 'Message Sent <i class="fas fa-check ml-2"></i>';
+                    submitBtn.disabled = true;
+
+                    // Instantly clear the form
+                    contactForm.reset();
+
+                    fetch('https://formsubmit.co/ajax/bidhandhakal365@gmail.com', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(formDataObject)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Reset button after 3 seconds
+                            setTimeout(() => {
+                                submitBtn.innerHTML = 'Send Message <i class="fas fa-paper-plane ml-2"></i>';
+                                submitBtn.disabled = false;
+                            }, 3000);
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            submitBtn.innerHTML = 'Error! Try Again <i class="fas fa-exclamation-circle ml-2"></i>';
+
+                            // Reset button after 3 seconds
+                            setTimeout(() => {
+                                submitBtn.innerHTML = 'Send Message <i class="fas fa-paper-plane ml-2"></i>';
+                                submitBtn.disabled = false;
+                            }, 3000);
+                        });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
