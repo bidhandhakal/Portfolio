@@ -366,7 +366,7 @@
                     <div class="bg-[var(--darker)] p-4 md:p-6 rounded-lg w-full" data-aos="fade-left"
                         data-aos-delay="300">
                         <form id="contactForm" class="space-y-4"
-                            action="https://formsubmit.co/ajax/bidhanndai@gmail.com" method="POST">
+                            action="https://formsubmit.co/ajax/d2d5dcff4f539e15c71a86dda3bee373" method="POST">
                             <input type="hidden" name="_subject" value="New Portfolio Contact Message">
                             <input type="hidden" name="_captcha" value="false">
 
@@ -563,7 +563,7 @@
                     // Instantly clear the form
                     contactForm.reset();
 
-                    fetch('https://formsubmit.co/ajax/bidhanndai@gmail.com', {
+                    fetch('https://formsubmit.co/ajax/d2d5dcff4f539e15c71a86dda3bee373', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -573,7 +573,7 @@
                     })
                         .then(response => response.json())
                         .then(data => {
-                            // Reset button after 3 seconds
+
                             setTimeout(() => {
                                 submitBtn.innerHTML = 'Send Message <i class="fas fa-paper-plane ml-2"></i>';
                                 submitBtn.disabled = false;
