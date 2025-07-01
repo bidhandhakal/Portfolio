@@ -10,19 +10,19 @@ window.addEventListener('load', () => {
 
     // Set initial Earth scale and position for animation
     if (earth) {
-        earth.scale.set(3, 3, 3); // Start with a larger scale
-        earth.position.set(0, 4, 0); // Start from a higher position
+        earth.scale.set(3, 3, 3);
+        earth.position.set(0, 4, 0);
 
-        // Also scale up clouds
+
         if (clouds) {
-            clouds.scale.set(1, 1, 1); // Keep clouds proportional
+            clouds.scale.set(1, 1, 1);
         }
 
-        // Set moon initial position
+
         if (moonPivot) {
-            // Store the original rotation for later
+
             moonPivot.userData.originalRotation = moonPivot.rotation.y;
-            // Reset moon position for the animation
+
             moonPivot.rotation.y = 0;
         }
     }
