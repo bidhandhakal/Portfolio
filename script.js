@@ -1,6 +1,5 @@
 window.addEventListener('load', () => {
     window.scrollTo(0, 0);
-
     const dots = document.querySelector('.dots');
     let count = 0;
     const dotsInterval = setInterval(() => {
